@@ -27,7 +27,7 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'serif'],
+        serif: ['"Cormorant Garamond"', 'serif'],
         sans: ['Montserrat', 'sans-serif'],
       },
       boxShadow: {

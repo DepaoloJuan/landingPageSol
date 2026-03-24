@@ -23,16 +23,10 @@ export function About() {
             transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
           >
             <h2 className="text-4xl md:text-5xl font-serif text-charcoal mb-8 leading-tight">
-              La Belleza de <br/><span className="italic font-light text-gold tracking-wide">los Detalles.</span>
+              Nuestra <br/><span className="italic font-light text-gold tracking-wide">filosofía.</span>
             </h2>
             <p className="text-charcoal-light text-lg mb-6 leading-relaxed font-light">
-              Nuestra filosofía se basa en la atención meticulosa y el cuidado personalizado. 
-              Creemos que cada persona es única, y por ello, cada servicio es adaptado para 
-              resaltar y elevar tu esencia de manera armónica.
-            </p>
-            <p className="text-charcoal-light text-lg leading-relaxed font-light">
-              Utilizamos técnicas vanguardistas y productos de calidad premium para asegurar 
-              resultados duraderos, elegantes y saludables, creando una experiencia inolvidable.
+              Conbinamos la excelencia con un trato cercano y alegre, donde cada visita es una oportunidad para regalarte ese buen momento que mereces.
             </p>
           </motion.div>
 

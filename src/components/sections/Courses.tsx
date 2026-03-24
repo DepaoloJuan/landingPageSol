@@ -43,16 +43,13 @@ export function Courses() {
               Formación <br/><span className="italic font-light text-gold text-5xl md:text-6xl">Profesional.</span>
             </h2>
             <p className="text-beige-light/80 text-lg mb-10 leading-relaxed font-light">
-              Elevá tu carrera en el mundo de la belleza. Brindamos capacitaciones intensivas 
-              con técnicas internacionales, diseñadas para proporcionarte las herramientas 
-              necesarias para destacarte en el mercado.
+              Brindamos capacitaciones intensivas, diseñadas para proporcionarte las herramientas necesarias para destacarte en el rubro.
             </p>
             
             <ul className="space-y-5 mb-12">
               {[
-                'Masterclass de Manicura Rusa y Combinada',
-                'Especialización Técnica en Soft Gel',
-                'Diseño y Perfilado de Cejas Orgánico'
+                'Diseño de Miradas',
+                'Especialización técnica Soft Gel'
               ].map((course, i) => (
                 <li key={i} className="flex items-center text-beige-light font-light text-lg">
                   <span className="w-1.5 h-1.5 rounded-full bg-gold mr-5 flex-shrink-0"></span>

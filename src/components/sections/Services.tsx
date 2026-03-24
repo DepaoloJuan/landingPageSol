@@ -9,20 +9,35 @@ const services = [
     tag: 'Más Elegido',
   },
   {
-    title: 'Soft Gel',
-    description: 'Extensión de uñas con técnica de soft gel. Aspecto natural y resistencia excepcional.',
+    title: 'Soft Gel, Acrílico, Poligel y Dipping',
+    description: 'Amplia variedad de técnicas para lograr un aspecto natural y resistencia excepcional.',
     price: 'Consultar',
   },
   {
     title: 'Lifting de Pestañas',
-    description: 'Arqueado natural que realza tu mirada de forma orgánica. Incluye tinte y nutrición con keratina.',
+    description: 'Arqueado natural que realza tu mirada.',
     price: 'Consultar',
   },
   {
-    title: 'Laminado de Cejas',
-    description: 'Diseño y fijación de cejas para un look sofisticado, poblado y perfectamente definido.',
+    title: 'Diseño de Miradas',
+    description: 'Perfilado de cejas, laminado de cejas, henna brows y micropigmentación.',
     price: 'Consultar',
   },
+  {
+    title: 'Extensiones de pestañas',
+    description: 'Técnicas sofisticadas para dar volumen y longitud a tu mirada, con un acabado natural y personalizado que resalta tu expresión con sutileza.',
+    price: 'Consultar',
+  },
+  {
+    title: 'Depilación',
+    description: 'Definitiva y con cera. Dejando una piel suave y cuidada, mejorando su apariencia.',
+    price: 'Consultar',
+  },
+  {
+    title: 'Belleza de Pies',
+    description: 'Ponemos tus pies en el pedestal que se merecen. Embelleciéndolos y relajándolos.',
+    price: 'Consultar',
+  }
 ];
 
 const containerVariants = {
@@ -63,8 +78,7 @@ export function Services() {
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" as any }}
             className="text-charcoal-light text-lg max-w-2xl mx-auto font-light leading-relaxed"
           >
-            Tratamientos diseñados para resaltar tu belleza natural con productos de 
-            la más alta calidad y atención rigurosamente personalizada.
+            Tratamientos diseñados para resaltar tu belleza natural con productos de calidad y atención rigurosamente personalizada.
           </motion.p>
         </div>
 

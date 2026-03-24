@@ -22,8 +22,8 @@ export function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-beige-light/80 backdrop-blur-md shadow-soft py-4' : 'bg-transparent py-6'}`}
     >
       <Container className="flex items-center justify-between">
-        <div className="text-2xl font-serif font-semibold tracking-wide text-charcoal">
-          Sol Cantero.
+        <div className="text-3xl font-serif font-semibold tracking-wide text-charcoal">
+          Sol Cantero
         </div>
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
           <a href="#services" className="relative group hover:text-gold transition-colors">
@@ -44,7 +44,7 @@ export function Header() {
           variant="primary"
           onClick={() => window.open('https://api.whatsapp.com/send/?phone=541131846305&text&type=phone_number&app_absent=0&utm_source=ig', '_blank')}
         >
-          Turnos
+          Reserva tu cita
         </Button>
       </Container>
     </motion.header>

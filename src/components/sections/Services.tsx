@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Container } from '../ui/Container';
+import { WA_PHONE } from '../../lib/constants';
 
-const WA_PHONE = '541131846305';
+
 
 const services = [
   {

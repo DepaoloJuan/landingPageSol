@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
+import { WA_URL } from '../../lib/constants';
 
-const WA_URL = 'https://api.whatsapp.com/send/?phone=541131846305&text&type=phone_number&app_absent=0';
+
 
 const navLinks = [
   { label: 'Servicios',  href: '#services' },

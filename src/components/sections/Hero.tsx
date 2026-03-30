@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
+import { WA_URL } from '../../lib/constants';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -69,7 +70,7 @@ export function Hero() {
               size="lg" 
               variant="primary" 
               className="min-w-[200px]"
-              onClick={() => window.open('https://api.whatsapp.com/send/?phone=541131846305&text&type=phone_number&app_absent=0&utm_source=ig', '_blank')}
+              onClick={() => window.open(WA_URL, '_blank')}
             >
               Reserva tu cita
             </Button>

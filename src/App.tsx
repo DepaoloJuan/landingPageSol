@@ -10,8 +10,9 @@ import { Courses } from './components/sections/Courses';
 import { Gallery } from './components/sections/Gallery';
 import { Testimonials } from './components/sections/Testimonials';
 import { Footer } from './components/layout/Footer';
+import { SESSION_KEY } from './lib/constants';
 
-const SESSION_KEY = 'sc_intro_seen';
+
 
 function App() {
   // Si ya se vio la intro en esta sesión, la saltamos directamente

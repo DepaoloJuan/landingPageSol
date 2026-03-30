@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { SESSION_KEY } from '../../lib/constants';
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const QUOTE = 'Cuando te brindas amor, lo bonito florece solo.';
 const WORDS = QUOTE.split(' ');
-const SESSION_KEY = 'sc_intro_seen';
+
 
 // Cubic bezier tipado explícitamente para satisfacer Framer Motion v12
 const EASE_OUT_EXPO = [0.76, 0, 0.24, 1] as [number, number, number, number];

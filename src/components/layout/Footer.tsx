@@ -1,9 +1,8 @@
 import { Container } from '../ui/Container';
 import { Instagram, MapPin, MessageCircle, Clock } from 'lucide-react';
+import { WA_URL, IG_URL, MAPS_URL } from '../../lib/constants';
 
-const WA_URL = 'https://api.whatsapp.com/send/?phone=541131846305&text&type=phone_number&app_absent=0';
-const IG_URL = 'https://www.instagram.com/solcantero.centrodebelleza';
-const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=Lobato+680+Claypole+Almirante+Brown+Buenos+Aires';
+
 
 export function Footer() {
   return (

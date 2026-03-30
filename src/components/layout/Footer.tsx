@@ -120,7 +120,7 @@ export function Footer() {
               &copy; {new Date().getFullYear()} Sol Cantero Centro de Belleza. Todos los derechos reservados.
             </p>
             <p className="text-xs text-beige-light/50 font-light tracking-wide mt-4 md:mt-0">
-              Diseno por AntiGravity
+              Diseno por Depaolo Juan Manuel
             </p>
           </div>
 

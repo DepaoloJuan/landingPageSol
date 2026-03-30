@@ -1,0 +1,1428 @@
+﻿===== D:\OneDrive\Escritorio\landingPageSol\src\components\layout\Footer.tsx =====
+import { Container } from '../ui/Container';
+import { Instagram, MapPin, MessageCircle, Clock } from 'lucide-react';
+
+const WA_URL = 'https://api.whatsapp.com/send/?phone=541131846305&text&type=phone_number&app_absent=0';
+const IG_URL = 'https://www.instagram.com/solcantero.centrodebelleza';
+const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=Lobato+680+Claypole+Almirante+Brown+Buenos+Aires';
+
+export function Footer() {
+  return (
+    <>
+      <footer className="bg-charcoal text-beige py-16 md:py-24 border-t border-charcoal-light/20 relative">
+        <Container>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+
+            {/* Columna marca */}
+            <div className="md:col-span-2">
+              <h3 className="text-3xl font-serif text-pearl mb-6">Sol Cantero.</h3>
+              <p className="text-beige-light/70 text-sm max-w-sm mb-8 leading-relaxed font-light">
+                Un espacio dedicado al cuidado personal y la estetica integral,
+                ideado para resaltar tu esencia con tecnicas premium.
+              </p>
+              <div className="flex gap-4">
+                <a
+                  href={IG_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Seguinos en Instagram"
+                  className="w-10 h-10 rounded-full border border-beige-light/20 flex items-center justify-center text-beige-light hover:bg-gold hover:text-white hover:border-gold transition-all duration-300"
+                >
+                  <Instagram size={18} />
+                </a>
+                <a
+                  href={WA_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Contactanos por WhatsApp"
+                  className="w-10 h-10 rounded-full border border-beige-light/20 flex items-center justify-center text-beige-light hover:bg-gold hover:text-white hover:border-gold transition-all duration-300"
+                >
+                  <MessageCircle size={18} />
+                </a>
+              </div>
+            </div>
+
+            {/* Columna enlaces */}
+            <div>
+              <h4 className="text-sm font-semibold text-gold tracking-widest uppercase mb-6">Enlaces</h4>
+              <ul className="space-y-4 text-sm font-light text-beige-light/80">
+                <li>
+                  <a href="#services" className="hover:text-gold transition-colors duration-300">
+                    Servicios
+                  </a>
+                </li>
+                <li>
+                  <a href="#courses" className="hover:text-gold transition-colors duration-300">
+                    Cursos
+                  </a>
+                </li>
+                <li>
+                  <a href="#gallery" className="hover:text-gold transition-colors duration-300">
+                    Resultados
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Columna contacto */}
+            <div>
+              <h4 className="text-sm font-semibold text-gold tracking-widest uppercase mb-6">Contacto</h4>
+              <ul className="space-y-5 text-sm font-light text-beige-light/80">
+
+                {/* Direccion con link a Google Maps */}
+                <li>
+                  <a
+                    href={MAPS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-3 hover:text-gold transition-colors duration-300 group"
+                    aria-label="Ver ubicacion en Google Maps"
+                  >
+                    <MapPin size={16} className="text-gold flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
+                    <span>
+                      Lobato 680, Esq. Rucci<br />
+                      Claypole, Almirante Brown<br />
+                      Buenos Aires
+                    </span>
+                  </a>
+                </li>
+
+                {/* Telefono con link directo a WhatsApp */}
+                <li>
+                  <a
+                    href={WA_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-3 hover:text-gold transition-colors duration-300 group"
+                    aria-label="Escribinos por WhatsApp"
+                  >
+                    <MessageCircle size={16} className="text-gold flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
+                    <span>+54 11 3184-6305</span>
+                  </a>
+                </li>
+
+                {/* Horario */}
+                <li className="flex items-start gap-3">
+                  <Clock size={16} className="text-gold flex-shrink-0 mt-0.5" />
+                  <span>
+                    Mar a Sab<br />
+                    9:00 a 19:00 hs
+                  </span>
+                </li>
+
+              </ul>
+            </div>
+
+          </div>
+
+          {/* Barra inferior */}
+          <div className="mt-20 pt-8 border-t border-beige-light/10 text-center md:flex md:justify-between md:text-left">
+            <p className="text-xs text-beige-light/50 font-light tracking-wide">
+              &copy; {new Date().getFullYear()} Sol Cantero Centro de Belleza. Todos los derechos reservados.
+            </p>
+            <p className="text-xs text-beige-light/50 font-light tracking-wide mt-4 md:mt-0">
+              Diseno por AntiGravity
+            </p>
+          </div>
+
+        </Container>
+      </footer>
+
+      {/* Floating WhatsApp Button */}
+      <a
+        href={WA_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contactanos por WhatsApp"
+        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] group"
+      >
+        <div className="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-25" />
+        <div className="relative bg-[#25D366] text-white p-4 rounded-full shadow-lg group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(37,211,102,0.6)] transition-all duration-300">
+          <MessageCircle size={28} className="fill-current" />
+        </div>
+      </a>
+    </>
+  );
+}
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\layout\Header.tsx =====
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import { Container } from '../ui/Container';
+import { Button } from '../ui/Button';
+
+const WA_URL = 'https://api.whatsapp.com/send/?phone=541131846305&text&type=phone_number&app_absent=0';
+
+const navLinks = [
+  { label: 'Servicios',  href: '#services' },
+  { label: 'Cursos',     href: '#courses'  },
+  { label: 'Resultados', href: '#gallery'  },
+];
+
+export function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
+  const closeMenu = () => setMobileOpen(false);
+
+  const handleNavClick = (href: string) => {
+    closeMenu();
+    setTimeout(() => {
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  };
+
+  return (
+    <>
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled || mobileOpen
+            ? 'bg-beige-light/95 backdrop-blur-md shadow-soft py-4'
+            : 'bg-transparent py-6'
+        }`}
+      >
+        <Container className="flex items-center justify-between">
+
+          {/* Logo */}
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              closeMenu();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="text-3xl font-serif font-semibold tracking-wide text-charcoal"
+          >
+            Sol Cantero
+          </a>
+
+          {/* Nav desktop */}
+          <nav
+            className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide"
+            aria-label="Navegacion principal"
+          >
+            {navLinks.map(({ label, href }) => (
+              <a
+                key={href}
+                href={href}
+                className="relative group hover:text-gold transition-colors duration-300"
+              >
+                {label}
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 ease-out group-hover:w-full" />
+              </a>
+            ))}
+          </nav>
+
+          {/* CTA desktop */}
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={() => window.open(WA_URL, '_blank')}
+            className="hidden md:inline-flex"
+            aria-label="Reservar cita por WhatsApp"
+          >
+            Reserva tu cita
+          </Button>
+
+          {/* Hamburger — solo mobile */}
+          <button
+            className="md:hidden flex items-center justify-center w-10 h-10 text-charcoal hover:text-gold transition-colors duration-300"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            aria-label={mobileOpen ? 'Cerrar menu' : 'Abrir menu'}
+            aria-expanded={String(mobileOpen) as 'true' | 'false'}
+            aria-controls="mobile-menu"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileOpen ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X size={22} strokeWidth={1.5} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="open"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu size={22} strokeWidth={1.5} />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
+
+        </Container>
+      </motion.header>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              key="overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-40 bg-charcoal/40 backdrop-blur-sm md:hidden"
+              onClick={closeMenu}
+              aria-hidden="true"
+            />
+
+            {/* Panel */}
+            <motion.div
+              key="drawer"
+              id="mobile-menu"
+              role="dialog"
+              aria-modal={true}
+              aria-label="Menu de navegacion"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+              className="fixed top-0 right-0 bottom-0 z-50 w-4/5 max-w-sm bg-beige-light flex flex-col md:hidden shadow-2xl"
+            >
+              {/* Header del drawer */}
+              <div className="flex items-center justify-between px-6 py-6 border-b border-charcoal/10">
+                <span className="text-2xl font-serif font-semibold text-charcoal">Sol Cantero</span>
+                <button
+                  onClick={closeMenu}
+                  className="w-9 h-9 flex items-center justify-center text-charcoal hover:text-gold transition-colors"
+                  aria-label="Cerrar menu"
+                >
+                  <X size={20} strokeWidth={1.5} />
+                </button>
+              </div>
+
+              {/* Links */}
+              <nav className="flex flex-col px-6 pt-8 gap-2 flex-1" aria-label="Navegacion mobile">
+                {navLinks.map(({ label, href }, i) => (
+                  <motion.a
+                    key={href}
+                    href={href}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.07, duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                    onClick={(e) => { e.preventDefault(); handleNavClick(href); }}
+                    className="text-2xl font-serif text-charcoal hover:text-gold transition-colors duration-300 py-4 border-b border-charcoal/10 last:border-0"
+                  >
+                    {label}
+                  </motion.a>
+                ))}
+              </nav>
+
+              {/* CTA en el drawer */}
+              <div className="px-6 pb-10 pt-4">
+                <Button
+                  size="md"
+                  variant="primary"
+                  onClick={() => { closeMenu(); window.open(WA_URL, '_blank'); }}
+                  className="w-full justify-center"
+                  aria-label="Reservar cita por WhatsApp"
+                >
+                  Reserva tu cita
+                </Button>
+                <p className="text-center text-xs text-charcoal/40 font-light mt-4 tracking-wide">
+                  Mar a Sab · 9 a 19 hs
+                </p>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\sections\About.tsx =====
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Container } from '../ui/Container';
+
+export function About() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start']
+  });
+
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, 120]);
+
+  return (
+    <section id="about" ref={containerRef} className="py-24 md:py-36 bg-cream overflow-hidden">
+      <Container>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <h2 className="text-4xl md:text-5xl font-serif text-charcoal mb-8 leading-tight">
+              Nuestra <br /><span className="italic font-light text-gold tracking-wide">filosofía.</span>
+            </h2>
+            <p className="text-charcoal-light text-lg mb-6 leading-relaxed font-light">
+              Combinamos la excelencia con un trato cercano y alegre, donde cada visita es una oportunidad para regalarte ese buen momento que mereces.
+            </p>
+          </motion.div>
+
+          <div className="relative h-[600px] flex justify-center items-center">
+            {/* Image 1 - Parallax Up */}
+            <motion.div
+              style={{ y: y1 }}
+              className="absolute left-0 lg:left-4 top-10 w-2/3 max-w-[400px] aspect-[4/3] rounded-2xl overflow-hidden shadow-soft z-10 bg-beige"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80"
+                alt="Atención al detalle y belleza"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gold/10 mix-blend-overlay"></div>
+            </motion.div>
+
+            {/* Image 2 - Parallax Down */}
+            <motion.div
+              style={{ y: y2 }}
+              className="absolute right-0 lg:right-4 bottom-10 w-3/5 max-w-[350px] aspect-square rounded-2xl overflow-hidden shadow-soft z-0 bg-beige"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&q=80"
+                alt="Atmósfera relajante y premium"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-charcoal/10 mix-blend-overlay"></div>
+            </motion.div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\sections\Courses.tsx =====
+import { motion } from 'framer-motion';
+import { Container } from '../ui/Container';
+import { Button } from '../ui/Button';
+
+export function Courses() {
+  return (
+    <section id="courses" className="py-24 md:py-36 bg-charcoal text-beige relative overflow-hidden">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gold/5 blur-[150px] rounded-full pointer-events-none" />
+      
+      <Container className="relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1 }}
+            className="order-2 lg:order-1"
+          >
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[450px] md:h-[550px]">
+              <img 
+                src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&q=80" 
+                alt="Clases de estética"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-charcoal/20 mix-blend-overlay"></div>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="order-1 lg:order-2"
+          >
+            <div className="inline-block mb-8">
+              <span className="bg-gold/10 text-gold-light border border-gold/20 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest backdrop-blur-sm">
+                Cupos Limitados
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-serif mb-6 leading-tight text-pearl">
+              Formación <br/><span className="italic font-light text-gold text-5xl md:text-6xl">Profesional.</span>
+            </h2>
+            <p className="text-beige-light/80 text-lg mb-10 leading-relaxed font-light">
+              Brindamos capacitaciones intensivas, diseñadas para proporcionarte las herramientas necesarias para destacarte en el rubro.
+            </p>
+            
+            <ul className="space-y-5 mb-12">
+              {[
+                'Diseño de Miradas',
+                'Especialización técnica Soft Gel'
+              ].map((course, i) => (
+                <li key={i} className="flex items-center text-beige-light font-light text-lg">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold mr-5 flex-shrink-0"></span>
+                  <span>{course}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Button 
+              size="lg" 
+              variant="secondary" 
+              className="w-full sm:w-auto"
+              onClick={() => window.open('https://api.whatsapp.com/send/?phone=541131846305&text&type=phone_number&app_absent=0&utm_source=ig', '_blank')}
+            >
+              Solicitar Información
+            </Button>
+          </motion.div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\sections\Gallery.tsx =====
+import { motion } from 'framer-motion';
+import { Container } from '../ui/Container';
+
+const images = [
+  {
+    src: 'https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?auto=format&fit=crop&q=80&w=800',
+    alt: 'Resultado de manicura premium en Sol Cantero',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&q=80&w=800',
+    alt: 'Diseno de cejas y lifting de pestanas',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1596755389378-c11dde124153?auto=format&fit=crop&q=80&w=800',
+    alt: 'Extensiones de pestanas volumen natural',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1600185960012-dbd486888ac8?auto=format&fit=crop&q=80&w=800',
+    alt: 'Tratamiento de unas con tecnica soft gel',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1512496015851-a1fbbfc69229?auto=format&fit=crop&q=80&w=800',
+    alt: 'Belleza de pies y pedicura premium',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800',
+    alt: 'Ambiente premium del centro de estetica Sol Cantero',
+  },
+];
+
+export function Gallery() {
+  return (
+    <section id="gallery" className="py-24 md:py-36 bg-cream">
+      <Container>
+        <div className="text-center mb-16 md:mb-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-serif text-charcoal mb-4"
+          >
+            Nuestros <span className="italic font-light text-gold">Resultados.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-charcoal-light text-lg max-w-2xl mx-auto font-light"
+          >
+            Una muestra de nuestro arte, precision y dedicacion en cada detalle.
+          </motion.p>
+        </div>
+
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          {images.map((image, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{
+                duration: 0.8,
+                delay: index * 0.1,
+                ease: [0.22, 1, 0.36, 1] as any,
+              }}
+              className="break-inside-avoid relative group rounded-2xl overflow-hidden shadow-soft bg-beige aspect-[3/4]"
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading={index < 2 ? 'eager' : 'lazy'}
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500" />
+            </motion.div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\sections\Hero.tsx =====
+import { motion } from 'framer-motion';
+import { Container } from '../ui/Container';
+import { Button } from '../ui/Button';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 1, ease: [0.22, 1, 0.36, 1] as any },
+  },
+};
+
+export function Hero() {
+  return (
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-beige-light">
+      {/* Background Image Placeholder with Fade */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-beige-light/95 via-beige-light/80 to-transparent z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-beige-light to-transparent z-10" />
+        <img
+          src="https://images.unsplash.com/photo-1615397323136-d846b5bd6266?auto=format&fit=crop&q=80"
+          alt="Sol Cantero interior"
+          className="w-full h-full object-cover object-right opacity-80"
+        />
+      </div>
+
+      <Container className="relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="max-w-2xl"
+          >
+          <motion.div variants={itemVariants} className="mb-6">
+            <span className="text-gold tracking-[0.25em] text-xs font-semibold uppercase">
+              Centro de Belleza
+            </span>
+          </motion.div>
+          <motion.h1 
+            variants={itemVariants}
+            className="text-5xl md:text-7xl font-serif text-charcoal leading-tight mb-6"
+          >
+            Cuando te brindas amor, <br />
+            <span className="italic font-light text-charcoal-light">lo bonito florece solo.</span>
+          </motion.h1>
+          <motion.p 
+            variants={itemVariants}
+            className="text-charcoal-light text-lg md:text-xl mb-12 max-w-xl font-light leading-relaxed"
+          >
+            Regalate un momento de pausa y cuidado. Porque el amor que te das hoy, es la belleza que proyectas mañana.
+          </motion.p>
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-wrap items-center gap-6"
+          >
+            <Button 
+              size="lg" 
+              variant="primary" 
+              className="min-w-[200px]"
+              onClick={() => window.open('https://api.whatsapp.com/send/?phone=541131846305&text&type=phone_number&app_absent=0&utm_source=ig', '_blank')}
+            >
+              Reserva tu cita
+            </Button>
+          </motion.div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] as any }}
+            className="hidden lg:block relative h-[600px] w-full rounded-2xl overflow-hidden shadow-2xl"
+          >
+            <img 
+              src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80" 
+              alt="Detalle spa y belleza"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gold/10 mix-blend-overlay"></div>
+          </motion.div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\sections\Services.tsx =====
+import { motion } from 'framer-motion';
+import { Container } from '../ui/Container';
+
+const WA_PHONE = '541131846305';
+
+const services = [
+  {
+    title: 'Manicura Premium',
+    description: 'Cuidado integral de cuticulas y esmaltado perfecto. Durabilidad y brillo superior.',
+    price: 'Consultar',
+    tag: 'Mas Elegido',
+  },
+  {
+    title: 'Soft Gel, Acrilico, Poligel y Dipping',
+    description: 'Amplia variedad de tecnicas para lograr un aspecto natural y resistencia excepcional.',
+    price: 'Consultar',
+  },
+  {
+    title: 'Lifting de Pestanas',
+    description: 'Arqueado natural que realza tu mirada.',
+    price: 'Consultar',
+  },
+  {
+    title: 'Diseno de Miradas',
+    description: 'Perfilado de cejas, laminado de cejas, henna brows y micropigmentacion.',
+    price: 'Consultar',
+  },
+  {
+    title: 'Extensiones de pestanas',
+    description: 'Tecnicas sofisticadas para dar volumen y longitud a tu mirada, con un acabado natural y personalizado que resalta tu expresion con sutileza.',
+    price: 'Consultar',
+  },
+  {
+    title: 'Depilacion',
+    description: 'Definitiva y con cera. Dejando una piel suave y cuidada, mejorando su apariencia.',
+    price: 'Consultar',
+  },
+  {
+    title: 'Belleza de Pies',
+    description: 'Ponemos tus pies en el pedestal que se merecen. Embelleciendolos y relajandolos.',
+    price: 'Consultar',
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: 'easeOut' as const },
+  },
+};
+
+export function Services() {
+  return (
+    <section id="services" className="py-24 md:py-36 bg-beige-light">
+      <Container>
+        <div className="text-center mb-16 md:mb-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8, ease: 'easeOut' as const }}
+            className="text-4xl md:text-5xl font-serif text-charcoal mb-6"
+          >
+            Nuestros <span className="italic font-light text-gold">Servicios.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' as const }}
+            className="text-charcoal-light text-lg max-w-2xl mx-auto font-light leading-relaxed"
+          >
+            Tratamientos disenados para resaltar tu belleza natural con productos de calidad
+            y atencion rigurosamente personalizada.
+          </motion.p>
+        </div>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
+          {services.map((service, index) => {
+            const waMessage = encodeURIComponent(
+              `Hola Sol, me gustaria consultar disponibilidad para el servicio de ${service.title}.`
+            );
+            return (
+              <motion.a
+                href={`https://wa.me/${WA_PHONE}?text=${waMessage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                key={index}
+                variants={cardVariants}
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ duration: 0.4, ease: 'easeOut' as const }}
+                aria-label={`Consultar por ${service.title} via WhatsApp`}
+                className="bg-cream p-8 rounded-2xl shadow-soft hover:shadow-glow transition-all duration-500 border border-transparent hover:border-gold/20 relative group flex flex-col h-full"
+              >
+                {service.tag && (
+                  <div className="absolute top-4 right-4 bg-gold/10 text-gold text-[10px] font-semibold px-3 py-1 rounded-full uppercase tracking-widest">
+                    {service.tag}
+                  </div>
+                )}
+                <h3 className="text-xl font-serif text-charcoal mt-6 mb-4 group-hover:text-gold transition-colors duration-300">
+                  {service.title}
+                </h3>
+                <p className="text-charcoal-light text-sm mb-8 leading-relaxed font-light flex-grow">
+                  {service.description}
+                </p>
+                <div className="mt-auto flex items-center justify-between pt-4 border-t border-charcoal/5">
+                  <span className="text-xs font-semibold text-charcoal tracking-widest uppercase">
+                    {service.price}
+                  </span>
+                  <span className="w-8 h-[1px] bg-gold/50 group-hover:w-12 transition-all duration-500" />
+                </div>
+              </motion.a>
+            );
+          })}
+        </motion.div>
+      </Container>
+    </section>
+  );
+}
+
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\sections\Testimonials.tsx =====
+import { motion } from 'framer-motion';
+import { Container } from '../ui/Container';
+import { Star } from 'lucide-react';
+
+const testimonials = [
+  {
+    name: "Valentina M.",
+    role: "Clienta Frecuente",
+    content: "La atención al detalle es insuperable. El ambiente, el profesionalismo y los productos que usan marcan la diferencia. Mi lugar de confianza absoluto.",
+    rating: 5,
+  },
+  {
+    name: "Sofía R.",
+    role: "Tratamiento Facial",
+    content: "Nunca había experimentado un cuidado tan personalizado. Entendieron exactamente lo que mi piel necesitaba. Los resultados fueron inmediatos y duraderos.",
+    rating: 5,
+  },
+  {
+    name: "Camila L.",
+    role: "Manicura Premium",
+    content: "Un nivel de excelencia poco común. Cada visita es un momento de relajación total y el esmaltado me dura intacto por semanas. Altamente recomendable.",
+    rating: 5,
+  }
+];
+
+export function Testimonials() {
+  return (
+    <section id="testimonials" className="py-24 md:py-36 bg-beige-light">
+      <Container>
+        <div className="text-center mb-16 md:mb-24">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-serif text-charcoal mb-4"
+          >
+            Voces que nos <span className="italic font-light text-gold">Inspiran.</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-charcoal-light text-lg max-w-2xl mx-auto font-light"
+          >
+            La satisfacción de quienes nos eligen es nuestro mayor logro.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: index * 0.15 }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="flex gap-1 mb-8">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-gold text-gold" />
+                ))}
+              </div>
+              <p className="text-charcoal-light text-lg md:text-xl leading-relaxed font-light italic mb-10 flex-grow">
+                "{testimonial.content}"
+              </p>
+              <div>
+                <h4 className="font-serif text-lg text-charcoal mb-2">{testimonial.name}</h4>
+                <p className="text-xs text-charcoal/50 uppercase tracking-widest">{testimonial.role}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\ui\Button.tsx =====
+import type { ButtonHTMLAttributes } from 'react';
+import { forwardRef } from 'react';
+import { cn } from '../../lib/utils';
+import { motion } from 'framer-motion';
+import type { HTMLMotionProps } from 'framer-motion';
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+type MotionButtonProps = HTMLMotionProps<"button"> & ButtonProps;
+
+export const Button = forwardRef<HTMLButtonElement, MotionButtonProps>(
+  ({ className, variant = 'primary', size = 'md', ...props }, ref) => {
+    return (
+      <motion.button
+        ref={ref}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className={cn(
+          'inline-flex items-center justify-center rounded-2xl font-sans font-medium tracking-wider transition-colors duration-300',
+          {
+            'bg-charcoal text-beige hover:bg-charcoal-light shadow-soft': variant === 'primary',
+            'bg-gold text-white hover:bg-gold-light shadow-glow': variant === 'secondary',
+            'border border-charcoal/20 bg-transparent text-charcoal hover:border-charcoal/50': variant === 'outline',
+            'bg-transparent text-charcoal hover:bg-charcoal/5': variant === 'ghost',
+            'px-5 py-2.5 text-sm': size === 'sm',
+            'px-7 py-3.5 text-base': size === 'md',
+            'px-10 py-5 text-lg': size === 'lg',
+          },
+          className
+        )}
+        {...props}
+      />
+    );
+  }
+);
+
+Button.displayName = 'Button';
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\components\ui\Container.tsx =====
+import type { HTMLAttributes } from 'react';
+import { forwardRef } from 'react';
+import { cn } from '../../lib/utils';
+
+export const Container = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn('mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8', className)}
+        {...props}
+      />
+    );
+  }
+);
+
+Container.displayName = 'Container';
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\lib\utils.ts =====
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\App.css =====
+/*
+  App.css — Sol Cantero
+  Los estilos globales del proyecto viven en index.css (via Tailwind).
+  Este archivo se reserva para overrides puntuales que no encajan en utilidades.
+*/
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\App.tsx =====
+import { useEffect } from 'react';
+import Lenis from 'lenis';
+import { Header } from './components/layout/Header';
+import { Hero } from './components/sections/Hero';
+import { About } from './components/sections/About';
+import { Services } from './components/sections/Services';
+import { Courses } from './components/sections/Courses';
+import { Gallery } from './components/sections/Gallery';
+import { Testimonials } from './components/sections/Testimonials';
+import { Footer } from './components/layout/Footer';
+
+function App() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
+
+  return (
+    <div className="bg-beige-light font-sans text-charcoal selection:bg-gold/30 selection:text-white">
+      <Header />
+      <main>
+        <Hero />
+        <About />
+        <Services />
+        <Courses />
+        <Gallery />
+        <Testimonials />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\index.css =====
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-beige text-charcoal font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-serif {
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+}
+
+/* Base image styling for resilience against layout shifts */
+img {
+  @apply bg-beige-light;
+}
+
+/* Lenis smooth scrolling reset */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\src\main.tsx =====
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\eslint.config.js =====
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import tseslint from 'typescript-eslint'
+import { defineConfig, globalIgnores } from 'eslint/config'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+  },
+])
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\index.html =====
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ═══ SEO PRIMARIO ═══ -->
+    <title>Sol Cantero | Centro de Estética Premium — Claypole, Buenos Aires</title>
+    <meta name="description" content="Centro de estética integral en Claypole, Almirante Brown. Manicura, extensiones, lifting de pestañas, diseño de cejas, depilación y cursos profesionales. Reservá tu turno por WhatsApp." />
+    <meta name="keywords" content="centro de estética Claypole, manicura Claypole, extensiones de pestañas Almirante Brown, lifting de pestañas, diseño de cejas, cursos de estética, Sol Cantero" />
+    <meta name="author" content="Sol Cantero Centro de Belleza" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.solcantero.com.ar/" />
+
+    <!-- ═══ OPEN GRAPH (WhatsApp, Facebook, LinkedIn) ═══ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.solcantero.com.ar/" />
+    <meta property="og:title" content="Sol Cantero | Centro de Estética Premium" />
+    <meta property="og:description" content="Manicura, extensiones, lifting de pestañas y más en Claypole. Un espacio premium dedicado a resaltar tu esencia." />
+    <meta property="og:image" content="https://www.solcantero.com.ar/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="Sol Cantero Centro de Belleza" />
+
+    <!-- ═══ TWITTER CARD ═══ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sol Cantero | Centro de Estética Premium" />
+    <meta name="twitter:description" content="Manicura, extensiones, lifting de pestañas y más en Claypole, Buenos Aires." />
+    <meta name="twitter:image" content="https://www.solcantero.com.ar/og-image.jpg" />
+
+    <!-- ═══ GEO / LOCAL SEO ═══ -->
+    <meta name="geo.region" content="AR-B" />
+    <meta name="geo.placename" content="Claypole, Almirante Brown, Buenos Aires" />
+
+    <!-- ═══ FAVICON ═══ -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- ═══ SCHEMA.ORG — Local Business (Google) ═══ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BeautySalon",
+      "name": "Sol Cantero Centro de Belleza",
+      "description": "Centro de estética integral premium en Claypole. Manicura, extensiones, lifting de pestañas, diseño de cejas, depilación y cursos profesionales.",
+      "url": "https://www.solcantero.com.ar",
+      "telephone": "+541131846305",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Lobato 680, Esquina Rucci",
+        "addressLocality": "Claypole",
+        "addressRegion": "Buenos Aires",
+        "addressCountry": "AR"
+      },
+      "sameAs": [
+        "https://www.instagram.com/solcantero.centrodebelleza"
+      ],
+      "priceRange": "$$",
+      "openingHours": "Tu-Sa 09:00-19:00"
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\package.json =====
+{
+  "name": "front-sol-antig",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.36.0",
+    "lenis": "^1.3.18",
+    "lucide-react": "^0.577.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^24.12.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.0",
+    "autoprefixer": "^10.4.27",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vite": "^8.0.0"
+  }
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\postcss.config.js =====
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\tailwind.config.js =====
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        beige: {
+          DEFAULT: '#F5F5F7',
+          light: '#FAF9F6' // Even softer
+        },
+        cream: {
+          DEFAULT: '#FDFCF0'
+        },
+        pearl: {
+          DEFAULT: '#FDFDFD'
+        },
+        charcoal: {
+          DEFAULT: '#2A2A2A',
+          light: '#4A4A4A'
+        },
+        gold: {
+          DEFAULT: '#C5A880',
+          light: '#D4BC9B'
+        }
+      },
+      fontFamily: {
+        serif: ['"Cormorant Garamond"', 'serif'],
+        sans: ['Montserrat', 'sans-serif'],
+      },
+      boxShadow: {
+        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+        'glow': '0 0 20px rgba(197, 168, 128, 0.4)'
+      },
+      borderRadius: {
+        'xl': '16px',
+        '2xl': '20px'
+      }
+    },
+  },
+  plugins: [],
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\tsconfig.app.json =====
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2023",
+    "useDefineForClassFields": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"]
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\tsconfig.json =====
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\tsconfig.node.json =====
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "types": ["node"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["vite.config.ts"]
+}
+
+
+
+===== D:\OneDrive\Escritorio\landingPageSol\vite.config.ts =====
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+
+  // Alias para imports limpios (escalabilidad futura)
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+
+  // Optimizaciones de build para produccion
+  build: {
+    // Umbral para inline de assets: archivos menores a 4kb se convierten en base64
+    // Evita requests HTTP extra para iconos y assets pequenos
+    assetsInlineLimit: 4096,
+
+    // Separacion de chunks para mejor cache del browser
+    // React y Framer Motion cambian poco — el usuario los cachea entre visitas
+    rollupOptions: {
+      output: {
+        manualChunks: (id: string) => {
+          if (id.includes('react') || id.includes('react-dom')) return 'vendor-react';
+          if (id.includes('framer-motion')) return 'vendor-motion';
+          if (id.includes('lucide-react') || id.includes('lenis')) return 'vendor-ui';
+        },
+      },
+    },
+
+    // Reportar cuando un chunk supera 500kb (alerta temprana de bundle bloat)
+    chunkSizeWarningLimit: 500,
+  },
+
+  // Servidor de desarrollo
+  server: {
+    port: 5173,
+    open: false,
+  },
+});
+
+

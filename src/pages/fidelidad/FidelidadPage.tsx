@@ -1,6 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Container } from '../../components/ui/Container';
+import { Button } from '../../components/ui/Button';
 import { GoogleLoginButton } from '../../components/fidelidad/GoogleLoginButton';
+import { EmailLoginForm } from '../../components/fidelidad/EmailLoginForm';
+import { EmailRegistroForm } from '../../components/fidelidad/EmailRegistroForm';
+import { OlvidePasswordForm } from '../../components/fidelidad/OlvidePasswordForm';
 import { TelefonoForm } from '../../components/fidelidad/TelefonoForm';
 import { Dashboard } from '../../components/fidelidad/Dashboard';
 import { obtenerToken, borrarToken, getProgreso, type Progreso } from '../../lib/fidelidadApi';
@@ -13,8 +17,11 @@ type Estado =
   | { paso: 'error'; mensaje: string }
   | { paso: 'dashboard'; progreso: Progreso };
 
+type VistaEmail = 'oculto' | 'login' | 'registro' | 'olvide';
+
 export function FidelidadPage() {
   const [estado, setEstado] = useState<Estado>({ paso: 'cargando' });
+  const [vistaEmail, setVistaEmail] = useState<VistaEmail>('oculto');
 
   const evaluarEstado = useCallback(async () => {
     if (!obtenerToken()) {
@@ -45,23 +52,63 @@ export function FidelidadPage() {
   }, [evaluarEstado]);
 
   return (
-    <div className="min-h-screen bg-beige-light font-sans text-charcoal flex items-center justify-center px-4">
+    <div className="relative min-h-screen bg-beige-light font-sans text-charcoal flex items-center justify-center px-4">
+      {estado.paso === 'dashboard' && (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            borrarToken();
+            setVistaEmail('oculto');
+            setEstado({ paso: 'login' });
+          }}
+          className="fixed top-6 right-6 z-10"
+        >
+          Cerrar sesión
+        </Button>
+      )}
+
       <Container className="max-w-2xl py-20">
         {estado.paso === 'cargando' && (
           <p className="text-center text-charcoal/50">Cargando...</p>
         )}
 
-        {estado.paso === 'login' && (
+        {estado.paso === 'login' && vistaEmail === 'oculto' && (
           <div className="flex flex-col items-center gap-6 text-center">
             <h1 className="font-serif text-3xl text-charcoal">Mi Fidelidad</h1>
             <p className="text-charcoal/60 max-w-sm">
-              Iniciá sesión con Google para ver tu tarjeta de sellos y tus premios.
+              Iniciá sesión para ver tu tarjeta de sellos y tus premios.
             </p>
             <GoogleLoginButton
               onLogueada={evaluarEstado}
               onError={(mensaje) => setEstado({ paso: 'error', mensaje })}
             />
+            <button
+              onClick={() => setVistaEmail('login')}
+              className="text-sm text-charcoal/50 hover:text-charcoal underline font-sans"
+            >
+              ¿No tenés Gmail? Ingresá con tu email
+            </button>
           </div>
+        )}
+
+        {estado.paso === 'login' && vistaEmail === 'login' && (
+          <EmailLoginForm
+            onLogueada={evaluarEstado}
+            onIrARegistro={() => setVistaEmail('registro')}
+            onOlvidePassword={() => setVistaEmail('olvide')}
+          />
+        )}
+
+        {estado.paso === 'login' && vistaEmail === 'registro' && (
+          <EmailRegistroForm
+            onRegistrada={evaluarEstado}
+            onIrALogin={() => setVistaEmail('login')}
+          />
+        )}
+
+        {estado.paso === 'login' && vistaEmail === 'olvide' && (
+          <OlvidePasswordForm onVolver={() => setVistaEmail('login')} />
         )}
 
         {estado.paso === 'telefono' && (
@@ -86,6 +133,7 @@ export function FidelidadPage() {
             <button
               onClick={() => {
                 borrarToken();
+                setVistaEmail('oculto');
                 setEstado({ paso: 'login' });
               }}
               className="text-sm text-charcoal/50 underline"

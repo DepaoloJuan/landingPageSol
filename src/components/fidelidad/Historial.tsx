@@ -3,6 +3,7 @@ import { Button } from '../ui/Button';
 import { getHistorial, type TurnoHistorial } from '../../lib/fidelidadApi';
 
 const PAGINA = 20;
+const VISIBLES_COLAPSADO = 3;
 
 function formatearFecha(fechaISO: string) {
   const fecha = new Date(fechaISO);
@@ -14,6 +15,7 @@ export function Historial() {
   const [offset, setOffset] = useState(0);
   const [hayMas, setHayMas] = useState(true);
   const [cargando, setCargando] = useState(true);
+  const [expandido, setExpandido] = useState(false);
 
   const cargar = async (desde: number, reemplazar: boolean) => {
     setCargando(true);
@@ -34,6 +36,9 @@ export function Historial() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const visibles = expandido ? turnos : turnos.slice(0, VISIBLES_COLAPSADO);
+  const hayOcultos = !expandido && (turnos.length > VISIBLES_COLAPSADO || hayMas);
+
   return (
     <div className="w-full max-w-md mx-auto mt-10">
       <h3 className="font-serif text-xl text-charcoal mb-4 text-center">Tu historial</h3>
@@ -43,7 +48,7 @@ export function Historial() {
       )}
 
       <ul className="flex flex-col gap-3">
-        {turnos.map((t, i) => (
+        {visibles.map((t, i) => (
           <li
             key={`${t.fecha}-${t.hora}-${i}`}
             className="bg-pearl rounded-2xl px-5 py-4 flex items-center justify-between gap-4"
@@ -56,7 +61,18 @@ export function Historial() {
         ))}
       </ul>
 
-      {hayMas && (
+      {hayOcultos && (
+        <div className="text-center mt-4">
+          <button
+            onClick={() => setExpandido(true)}
+            className="text-sm text-charcoal/50 hover:text-charcoal underline font-sans"
+          >
+            Ver historial completo
+          </button>
+        </div>
+      )}
+
+      {expandido && hayMas && (
         <div className="text-center mt-6">
           <Button variant="outline" size="sm" onClick={() => cargar(offset, false)} disabled={cargando}>
             {cargando ? 'Cargando...' : 'Cargar más'}

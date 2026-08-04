@@ -19,6 +19,7 @@ export interface Progreso {
   ok: true;
   estado_vinculacion: 'pendiente' | 'auto' | 'manual' | 'rechazada';
   requiere_telefono: boolean;
+  nombre: string | null;
   ciclo_actual: number;
   sellos_del_ciclo: number;
   total_sellos_por_ciclo: number;
@@ -64,11 +65,42 @@ async function pedido<T>(path: string, options: RequestInit = {}): Promise<T> {
   return data as T;
 }
 
+interface RespuestaLogin {
+  ok: true;
+  token: string;
+  requiere_telefono: boolean;
+  estado_vinculacion?: string;
+}
+
 export const loginGoogle = (idToken: string) =>
-  pedido<{ ok: true; token: string; requiere_telefono: boolean; estado_vinculacion?: string }>(
-    '/api/fidelidad/login-google',
-    { method: 'POST', body: JSON.stringify({ id_token: idToken }) },
-  );
+  pedido<RespuestaLogin>('/api/fidelidad/login-google', {
+    method: 'POST',
+    body: JSON.stringify({ id_token: idToken }),
+  });
+
+export const registro = (datos: { nombre: string; email: string; password: string; telefono: string }) =>
+  pedido<RespuestaLogin>('/api/fidelidad/registro', {
+    method: 'POST',
+    body: JSON.stringify(datos),
+  });
+
+export const loginEmail = (datos: { email: string; password: string }) =>
+  pedido<RespuestaLogin>('/api/fidelidad/login', {
+    method: 'POST',
+    body: JSON.stringify(datos),
+  });
+
+export const olvidePassword = (email: string) =>
+  pedido<{ ok: true; mensaje: string }>('/api/fidelidad/olvide-password', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  });
+
+export const resetearPassword = (token: string, passwordNueva: string) =>
+  pedido<{ ok: true; mensaje: string }>('/api/fidelidad/resetear-password', {
+    method: 'POST',
+    body: JSON.stringify({ token, password_nueva: passwordNueva }),
+  });
 
 export const enviarTelefono = (telefono: string) =>
   pedido<{ ok: true; estado_vinculacion: string }>('/api/fidelidad/telefono', {

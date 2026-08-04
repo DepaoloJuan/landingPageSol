@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node -e \"require('fs').copyFileSync('public/curso_soft_gel_v2.html', 'dist/curso-soft-gel.html')\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },

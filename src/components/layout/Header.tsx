@@ -80,25 +80,23 @@ export function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 ease-out group-hover:w-full" />
               </a>
             ))}
-            <Link
-              to="/mi-fidelidad"
-              className="relative group hover:text-gold transition-colors duration-300"
-            >
+            <Link to="/mi-fidelidad" className="relative group hover:text-gold transition-colors duration-300">
               Mi Fidelidad
               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 ease-out group-hover:w-full" />
             </Link>
           </nav>
 
           {/* CTA desktop */}
-          <Button
-            size="sm"
-            variant="primary"
-            onClick={() => window.open(WA_URL, '_blank')}
-            className="hidden md:inline-flex"
-            aria-label="Reservar cita por WhatsApp"
-          >
-            Reserva tu cita
-          </Button>
+          <div className="hidden md:flex items-center gap-3">
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={() => window.open(WA_URL, '_blank')}
+              aria-label="Reservar cita por WhatsApp"
+            >
+              Reserva tu cita
+            </Button>
+          </div>
 
           {/* Hamburger — solo mobile */}
           <button

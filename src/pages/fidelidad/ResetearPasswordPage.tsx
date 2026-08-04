@@ -40,7 +40,14 @@ export function ResetearPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-beige-light font-sans text-charcoal flex items-center justify-center px-4">
+    <div className="relative min-h-screen bg-beige-light font-sans text-charcoal flex items-center justify-center px-4">
+      <Link
+        to="/"
+        className="fixed top-6 left-6 z-10 text-sm text-charcoal/60 hover:text-charcoal underline font-sans"
+      >
+        ← Volver al sitio
+      </Link>
+
       <Container className="max-w-md py-20 text-center">
         <h1 className="font-serif text-2xl text-charcoal mb-6">Elegí tu nueva contraseña</h1>
 

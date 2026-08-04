@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Container } from '../../components/ui/Container';
 import { Button } from '../../components/ui/Button';
 import { GoogleLoginButton } from '../../components/fidelidad/GoogleLoginButton';
@@ -53,6 +54,13 @@ export function FidelidadPage() {
 
   return (
     <div className="relative min-h-screen bg-beige-light font-sans text-charcoal flex items-center justify-center px-4">
+      <Link
+        to="/"
+        className="fixed top-6 left-6 z-10 text-sm text-charcoal/60 hover:text-charcoal underline font-sans"
+      >
+        ← Volver al sitio
+      </Link>
+
       {estado.paso === 'dashboard' && (
         <Button
           variant="outline"

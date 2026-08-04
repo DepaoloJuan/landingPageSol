@@ -3,6 +3,7 @@ import { Container } from '../ui/Container';
 import { TarjetaSellos } from './TarjetaSellos';
 import { PremioCard } from './PremioCard';
 import { Historial } from './Historial';
+import { TarjetasAnteriores } from './TarjetasAnteriores';
 import type { Progreso, Premio } from '../../lib/fidelidadApi';
 
 interface DashboardProps {
@@ -38,6 +39,8 @@ export function Dashboard({ progreso }: DashboardProps) {
       {premios.map((premio) => (
         <PremioCard key={premio.id} premio={premio} onGirado={handleGirado} />
       ))}
+
+      <TarjetasAnteriores />
 
       <Historial />
     </Container>

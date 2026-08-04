@@ -95,3 +95,23 @@ Al día de hoy (2026-04-06 en el árbol local, fecha de esta bitácora 2026-08-0
 - La rama no está mergeada a `main` ni deployada.
 - Falta configurar `VITE_GOOGLE_CLIENT_ID` en Google Cloud Console (mismo Client ID que usa el backend) para que el login funcione de punta a punta; se agregó vacía en `.env.local` (no trackeado).
 - Sigue sin tocarse el bloque de WIP viejo descrito en la entrada anterior (Firebase config, fotos, estilos de secciones existentes, `curso_soft_gel_v2.html`) — sigue pendiente de revisión y commit aparte.
+
+---
+
+## [2026-08-04] (2)
+
+**Qué se hizo:**
+- Sigue en `fidelizacion-front` (aún sin mergear a `main`), commit `feat: login/registro por email+contraseña, reseteo de contraseña` por encima del anterior de la rama.
+- Login/registro manual con email+contraseña como alternativa al login de Google, para clientas sin cuenta de Gmail (Yahoo, iCloud, etc.): componentes nuevos `EmailLoginForm`, `EmailRegistroForm`, `OlvidePasswordForm`, con toggle entre las tres vistas (y Google) en `FidelidadPage`.
+- Ruta nueva `/mi-fidelidad/resetear` (`ResetearPasswordPage`), lee el token desde la URL con `useSearchParams`.
+- `fidelidadApi.ts`: se agregan `registro`, `loginEmail`, `olvidePassword`, `resetearPassword`. El backend correspondiente (Sol Admin, rama `fidelizacion`, otro repo) agregó los endpoints y el envío de mail vía Resend.
+- `Progreso.nombre_google` renombrado a `Progreso.nombre` — ya no se asume que el nombre viene siempre de Google, ahora puede venir de una cuenta manual.
+- Ajustes de UI en el dashboard por feedback directo de cómo se veía en pantalla: botón de "Cerrar sesión" reposicionado (antes al lado del saludo, ahora fijo arriba a la derecha con `fixed top-6 right-6`); `Historial` ahora se muestra colapsado a los últimos 3 turnos por default, con botón "Ver historial completo" para desplegar el resto.
+- Primera vez que `docs/ai/CONTEXT.md` y `docs/ai/PROGRESS.md` quedan trackeados en git en este repo — existían en el working tree pero nunca se habían commiteado.
+
+**Archivos tocados:** `src/components/fidelidad/EmailLoginForm.tsx` (nuevo), `src/components/fidelidad/EmailRegistroForm.tsx` (nuevo), `src/components/fidelidad/OlvidePasswordForm.tsx` (nuevo), `src/pages/fidelidad/ResetearPasswordPage.tsx` (nuevo), `src/pages/fidelidad/FidelidadPage.tsx`, `src/components/fidelidad/Dashboard.tsx`, `src/components/fidelidad/Historial.tsx`, `src/lib/fidelidadApi.ts`, `src/App.tsx`, `docs/ai/CONTEXT.md`, `docs/ai/PROGRESS.md`.
+
+**Pendiente / a revisar:**
+- La rama sigue sin mergear a `main` ni deployada.
+- El WIP viejo sin commitear (config de Firebase, fotos, ajustes de estilos en las secciones existentes de la landing pública) sigue intacto, sin tocar en este commit.
+- No se verificó en esta entrada si el flujo de reseteo de contraseña se probó de punta a punta contra el backend real.

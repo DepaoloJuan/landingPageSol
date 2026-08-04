@@ -9,10 +9,22 @@ export const borrarToken = () => localStorage.removeItem(TOKEN_KEY);
 export interface Premio {
   id: number;
   ciclo: number;
-  sello_numero: 5 | 10;
+  sello_numero: number;
   tipo_premio: string | null;
   descripcion: string | null;
   redimido: boolean;
+}
+
+export interface PremioTarjetaAnterior {
+  sello_numero: number;
+  tipo_premio: string | null;
+  descripcion: string | null;
+  redimido: boolean;
+}
+
+export interface TarjetaAnterior {
+  ciclo: number;
+  premios: PremioTarjetaAnterior[];
 }
 
 export interface Progreso {
@@ -117,5 +129,8 @@ export const girarPremio = (id: number) =>
 
 export const getHistorial = (offset = 0) =>
   pedido<{ ok: true; turnos: TurnoHistorial[] }>(`/api/fidelidad/historial?limit=20&offset=${offset}`);
+
+export const getTarjetasAnteriores = () =>
+  pedido<{ ok: true; tarjetas: TarjetaAnterior[] }>('/api/fidelidad/tarjetas-anteriores');
 
 export { FidelidadApiError };

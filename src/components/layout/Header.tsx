@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { WA_URL } from '../../lib/constants';
@@ -79,18 +80,23 @@ export function Header() {
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 ease-out group-hover:w-full" />
               </a>
             ))}
+            <Link to="/mi-fidelidad" className="relative group hover:text-gold transition-colors duration-300">
+              Mi Fidelidad
+              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 ease-out group-hover:w-full" />
+            </Link>
           </nav>
 
           {/* CTA desktop */}
-          <Button
-            size="sm"
-            variant="primary"
-            onClick={() => window.open(WA_URL, '_blank')}
-            className="hidden md:inline-flex"
-            aria-label="Reservar cita por WhatsApp"
-          >
-            Reserva tu cita
-          </Button>
+          <div className="hidden md:flex items-center gap-3">
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={() => window.open(WA_URL, '_blank')}
+              aria-label="Reservar cita por WhatsApp"
+            >
+              Reserva tu cita
+            </Button>
+          </div>
 
           {/* Hamburger — solo mobile */}
           <button
@@ -184,6 +190,19 @@ export function Header() {
                     {label}
                   </motion.a>
                 ))}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + navLinks.length * 0.07, duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                >
+                  <Link
+                    to="/mi-fidelidad"
+                    onClick={closeMenu}
+                    className="block text-2xl font-serif text-charcoal hover:text-gold transition-colors duration-300 py-4 border-b border-charcoal/10"
+                  >
+                    Mi Fidelidad
+                  </Link>
+                </motion.div>
               </nav>
 
               {/* CTA en el drawer */}

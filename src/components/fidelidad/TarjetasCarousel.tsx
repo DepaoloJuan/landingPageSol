@@ -12,14 +12,35 @@ type Slide =
   | { tipo: 'actual'; ciclo: number; sellosDelCiclo: number; totalSellosPorCiclo: number }
   | { tipo: 'anterior'; ciclo: number; premios: TarjetaAnterior['premios'] };
 
-const ANCHO_TARJETA = 680;
-const ESPACIADO = 360;
+const ANCHO_TARJETA_DESKTOP = 680;
 const MAX_VISIBLES = 2; // vecinos a cada lado antes de ocultar la tarjeta
+
+// El carrusel posiciona las tarjetas con un ancho fijo en píxeles (necesario
+// para el efecto coverflow con transform 3D) — en mobile eso desbordaba la
+// pantalla, así que el ancho se recalcula contra el viewport real.
+function useAnchoTarjeta() {
+  const calcular = () =>
+    typeof window === 'undefined'
+      ? ANCHO_TARJETA_DESKTOP
+      : Math.min(ANCHO_TARJETA_DESKTOP, window.innerWidth - 32);
+
+  const [ancho, setAncho] = useState(calcular);
+
+  useEffect(() => {
+    const onResize = () => setAncho(calcular());
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  return ancho;
+}
 
 export function TarjetasCarousel({ progreso }: TarjetasCarouselProps) {
   const [anteriores, setAnteriores] = useState<TarjetaAnterior[]>([]);
   const [activo, setActivo] = useState(0);
   const [dragX, setDragX] = useState(0);
+  const anchoTarjeta = useAnchoTarjeta();
+  const espaciado = anchoTarjeta * (360 / ANCHO_TARJETA_DESKTOP);
 
   useEffect(() => {
     getTarjetasAnteriores()
@@ -53,7 +74,7 @@ export function TarjetasCarousel({ progreso }: TarjetasCarouselProps) {
 
   const handlePanEnd = (_: unknown, info: PanInfo) => {
     setDragX(0);
-    const pasos = Math.round(-info.offset.x / ESPACIADO);
+    const pasos = Math.round(-info.offset.x / espaciado);
     if (pasos !== 0) {
       ir(activo + pasos);
     } else if (Math.abs(info.velocity.x) > 500) {
@@ -116,9 +137,9 @@ export function TarjetasCarousel({ progreso }: TarjetasCarouselProps) {
                   <motion.div
                     key={slide.ciclo}
                     className="absolute top-0 left-1/2 pointer-events-none"
-                    style={{ width: ANCHO_TARJETA, marginLeft: -ANCHO_TARJETA / 2 }}
+                    style={{ width: anchoTarjeta, marginLeft: -anchoTarjeta / 2 }}
                     animate={{
-                      x: offset * ESPACIADO + (esActiva ? dragX : dragX * 0.4),
+                      x: offset * espaciado + (esActiva ? dragX : dragX * 0.4),
                       scale: esActiva ? 1 : 0.82,
                       rotateY: offset * -28,
                       opacity: 1,

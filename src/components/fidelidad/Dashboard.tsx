@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Container } from '../ui/Container';
-import { TarjetaSellos } from './TarjetaSellos';
+import { TarjetasCarousel } from './TarjetasCarousel';
 import { PremioCard } from './PremioCard';
 import { Historial } from './Historial';
-import { TarjetasAnteriores } from './TarjetasAnteriores';
 import type { Progreso, Premio } from '../../lib/fidelidadApi';
 
 interface DashboardProps {
@@ -30,17 +29,11 @@ export function Dashboard({ progreso }: DashboardProps) {
         {nombre ? `¡Bienvenida, ${nombre}!` : '¡Bienvenida!'}
       </h1>
 
-      <TarjetaSellos
-        cicloActual={progreso.ciclo_actual}
-        sellosDelCiclo={progreso.sellos_del_ciclo}
-        totalSellosPorCiclo={progreso.total_sellos_por_ciclo}
-      />
+      <TarjetasCarousel progreso={progreso} />
 
       {premios.map((premio) => (
         <PremioCard key={premio.id} premio={premio} onGirado={handleGirado} />
       ))}
-
-      <TarjetasAnteriores />
 
       <Historial />
     </Container>

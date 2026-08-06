@@ -3,8 +3,10 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { Container } from '../../components/ui/Container';
 import { Button } from '../../components/ui/Button';
 import { resetearPassword, FidelidadApiError } from '../../lib/fidelidadApi';
+import { usePwaFidelidad } from '../../lib/usePwaFidelidad';
 
 export function ResetearPasswordPage() {
+  usePwaFidelidad();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
 

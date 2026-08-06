@@ -33,7 +33,6 @@ export function Historial() {
 
   useEffect(() => {
     cargar(0, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const visibles = expandido ? turnos : turnos.slice(0, VISIBLES_COLAPSADO);
@@ -72,11 +71,19 @@ export function Historial() {
         </div>
       )}
 
-      {expandido && hayMas && (
-        <div className="text-center mt-6">
-          <Button variant="outline" size="sm" onClick={() => cargar(offset, false)} disabled={cargando}>
-            {cargando ? 'Cargando...' : 'Cargar más'}
-          </Button>
+      {expandido && (
+        <div className="text-center mt-6 flex flex-col items-center gap-3">
+          {hayMas && (
+            <Button variant="outline" size="sm" onClick={() => cargar(offset, false)} disabled={cargando}>
+              {cargando ? 'Cargando...' : 'Cargar más'}
+            </Button>
+          )}
+          <button
+            onClick={() => setExpandido(false)}
+            className="text-sm text-charcoal/50 hover:text-charcoal underline font-sans"
+          >
+            Ver menos
+          </button>
         </div>
       )}
     </div>

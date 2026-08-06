@@ -8,7 +8,8 @@ import { EmailRegistroForm } from '../../components/fidelidad/EmailRegistroForm'
 import { OlvidePasswordForm } from '../../components/fidelidad/OlvidePasswordForm';
 import { TelefonoForm } from '../../components/fidelidad/TelefonoForm';
 import { Dashboard } from '../../components/fidelidad/Dashboard';
-import { obtenerToken, borrarToken, getProgreso, type Progreso } from '../../lib/fidelidadApi';
+import { obtenerToken, borrarToken, getProgreso, logout, type Progreso } from '../../lib/fidelidadApi';
+import { usePwaFidelidad } from '../../lib/usePwaFidelidad';
 
 type Estado =
   | { paso: 'cargando' }
@@ -21,6 +22,7 @@ type Estado =
 type VistaEmail = 'oculto' | 'login' | 'registro' | 'olvide';
 
 export function FidelidadPage() {
+  usePwaFidelidad();
   const [estado, setEstado] = useState<Estado>({ paso: 'cargando' });
   const [vistaEmail, setVistaEmail] = useState<VistaEmail>('oculto');
 
@@ -66,6 +68,7 @@ export function FidelidadPage() {
           variant="outline"
           size="sm"
           onClick={() => {
+            logout().catch(() => {});
             borrarToken();
             setVistaEmail('oculto');
             setEstado({ paso: 'login' });
@@ -76,7 +79,7 @@ export function FidelidadPage() {
         </Button>
       )}
 
-      <Container className="max-w-2xl py-20">
+      <Container className={estado.paso === 'dashboard' ? 'max-w-6xl py-20' : 'max-w-2xl py-20'}>
         {estado.paso === 'cargando' && (
           <p className="text-center text-charcoal/50">Cargando...</p>
         )}

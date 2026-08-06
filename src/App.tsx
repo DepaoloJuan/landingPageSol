@@ -8,6 +8,7 @@ function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/mi-fidelidad" element={<FidelidadPage />} />
+      <Route path="/mi-fidelidad/" element={<FidelidadPage />} />
       <Route path="/mi-fidelidad/resetear" element={<ResetearPasswordPage />} />
     </Routes>
   );

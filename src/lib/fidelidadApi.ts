@@ -133,4 +133,7 @@ export const getHistorial = (offset = 0) =>
 export const getTarjetasAnteriores = () =>
   pedido<{ ok: true; tarjetas: TarjetaAnterior[] }>('/api/fidelidad/tarjetas-anteriores');
 
+export const logout = () =>
+  pedido<{ ok: true }>('/api/fidelidad/logout', { method: 'POST' });
+
 export { FidelidadApiError };

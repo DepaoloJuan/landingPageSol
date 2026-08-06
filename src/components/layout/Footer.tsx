@@ -1,4 +1,5 @@
 import { Container } from '../ui/Container';
+import { WhatsAppWidget } from '../ui/WhatsAppWidget';
 import { Instagram, MapPin, MessageCircle, Clock } from 'lucide-react';
 import { WA_URL, IG_URL, MAPS_URL } from '../../lib/constants';
 
@@ -126,19 +127,7 @@ export function Footer() {
         </Container>
       </footer>
 
-      {/* Floating WhatsApp Button */}
-      <a
-        href={WA_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Contactanos por WhatsApp"
-        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] group"
-      >
-        <div className="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-25" />
-        <div className="relative bg-[#25D366] text-white p-4 rounded-full shadow-lg group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(37,211,102,0.6)] transition-all duration-300">
-          <MessageCircle size={28} className="fill-current" />
-        </div>
-      </a>
+      <WhatsAppWidget />
     </>
   );
 }

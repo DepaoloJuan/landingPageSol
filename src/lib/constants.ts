@@ -12,3 +12,6 @@ export const MAPS_URL =
 
 // ─── Intro ────────────────────────────────────────────────────────────────────
 export const SESSION_KEY = 'sc_intro_seen';
+
+// ─── API Sol Admin ─────────────────────────────────────────────────────────────
+export const API_URL = import.meta.env.VITE_API_URL ?? 'https://admin.solcantero.com.ar';

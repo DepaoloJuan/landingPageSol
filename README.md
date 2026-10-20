@@ -1,89 +1,48 @@
-# Sol Cantero - Centro de Belleza 💅✨
+# Sol Cantero · Sitio institucional y portal de fidelización
 
+Sitio web y portal de clientas para **Sol Cantero Centro de Belleza**, un negocio real. Combina una presencia institucional de estilo editorial y minimalista con un portal de fidelización ("Mi Fidelidad") instalable como PWA.
 
-> **Rediseño Premium 2026**: Una evolución visual y técnica del sitio institucional para "Sol Cantero Centro de Belleza". Orientado a una experiencia de usuario (UX) boutique, minimalista y de alta gama.
+## Qué incluye
 
----
+| Módulo | Detalle |
+| --- | --- |
+| Sitio institucional | Diseño mobile-first con animaciones fluidas y scroll suave |
+| Portal de fidelización | Login con Google y con email y contraseña, reseteo de contraseña, sellos e historial de la clienta |
+| PWA | Instalable en el celular desde el navegador |
+| Despliegue | Firebase Hosting |
 
-## 🌟 Visión del Proyecto
+## Stack
 
-Este proyecto nace de la necesidad de transformar la presencia digital del centro de estética en una plataforma que refleje **profesionalismo, delicadeza y confianza**. Se priorizó una estética "Editorial/Boutique" con un enfoque *mobile-first* y animaciones fluidas que acompañan la narrativa de la marca.
+| Área | Tecnología |
+| --- | --- |
+| Frontend | React 18, Vite, TypeScript |
+| Estilos | Tailwind CSS |
+| Animaciones | Framer Motion, Lenis (scroll inercial) |
+| Íconos | Lucide React |
+| Backend como servicio y hosting | Firebase |
 
-### 🎨 Concepto Visual (Art Direction)
-* **Tipografía:** Fusión de *Cormorant Garamond* (Serif de lujo) para identidad corporativa y *Montserrat* (Sans) para legibilidad en cuerpos de texto.
-* **Paleta de Colores:** Neutros cálidos, Beige (`#F5F5F7`), Nude y Charcoal para contrastes elegantes.
-* **UX/UI:** Uso estratégico de espacios en blanco (*negative space*), micro-interacciones sutiles y transiciones suaves para una experiencia premium.
+## Decisiones de diseño
 
----
+| Tema | Decisión |
+| --- | --- |
+| Identidad visual | Tipografía serif (Cormorant Garamond) para la marca y sans (Montserrat) para el texto |
+| Paleta | Neutros cálidos, beige y charcoal, con mucho espacio en blanco |
+| Organización del código | Atomic Design en `src/components` |
 
-## 🚀 Tecnologías Utilizadas
+## Ejecutar en local
 
-### Frontend Core
-- **React 18 + Vite:** Entorno de desarrollo ultra rápido y estructurado para un rendimiento óptimo.
-- **Tailwind CSS:** Framework de estilos utility-first para un diseño responsive, consistente y escalable.
-- **Framer Motion:** Biblioteca líder para animaciones declarativas, interacciones complejas y control de gestos.
-- **Lucide React:** Set de iconos minimalistas, coherentes y altamente optimizados.
+| Paso | Comando |
+| --- | --- |
+| Instalar dependencias | `npm install` |
+| Entorno de desarrollo | `npm run dev` |
+| Build de producción | `npm run build` |
 
-### Performance & Experiencia
-- **Lenis Scroll:** Implementación de *smooth scrolling* inercial para una navegación fluida de punta a punta, sin saltos abruptos.
-- **Responsive Design:** Optimización meticulosa para dispositivos móviles, tablets y desktop, asegurando consistencia visual en todas las resoluciones.
+Las variables de entorno van en un archivo `.env` local, que no se versiona.
 
----
+## Documentación interna
 
-## 📂 Estructura del Proyecto (Atomic Design)
+La carpeta `docs/ai` contiene el contexto del proyecto y el estado de cada módulo.
 
-```text
-src/
- ├── assets/             # Imágenes, iconos, tipografías y recursos estáticos
- ├── components/
- │    ├── layout/        # Componentes estructurales (Header, Footer, Navigation)
- │    ├── sections/      # Secciones de la landing (Hero, About, Services, Courses, Gallery)
- │    └── ui/            # Componentes atómicos (Botones, Contenedores, Badges)
- ├── lib/                # Funciones auxiliares y configuraciones globales
- ├── index.css           # Estilos globales y capas de utilidades de Tailwind
- └── App.tsx             # Punto de entrada principal y orquestador de componentes
-```
+## Autor
 
----
-
-## 🛠️ Instalación y Uso
-
-Para correr este proyecto localmente en tu entorno de desarrollo, seguí estos pasos:
-
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/DepaoloJuan/landingPageSol.git
-   ```
-
-2. **Navegar al directorio:**
-   ```bash
-   cd landingPageSol
-   ```
-
-3. **Instalar dependencias:**
-   ```bash
-   npm install
-   ```
-
-4. **Ejecutar en modo desarrollo:**
-   ```bash
-   npm run dev
-   ```
-
-5. **Construir para producción:**
-   ```bash
-   npm run build
-   ```
-
----
-
-## 🎯 Próximos Pasos (Roadmap)
-
-- [ ] Integración con API de Google Calendar para gestión automática de reservas y turnos.
-- [ ] Desarrollo de Panel Administrativo (`admin.solcantero.com.ar`) para gestión dinámica de catálogo de servicios y precios.
-- [ ] Galería dinámica conectada en tiempo real con la API de Instagram para mostrar últimos trabajos y resultados.
-
----
-
-Desarrollado con ❤️ por **Juan Manuel Depaolo**  
-*Estudiante de Programación - Universidad Tecnológica Nacional (UTN)*
+Juan Manuel Depaolo · [LinkedIn](https://linkedin.com/in/juan-manuel-depaolo) · [GitHub](https://github.com/DepaoloJuan)

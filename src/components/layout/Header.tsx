@@ -10,6 +10,7 @@ import { WA_URL } from '../../lib/constants';
 
 const navLinks = [
   { label: 'Servicios',  href: '#services' },
+  { label: 'Precios',    href: '#precios'  },
   { label: 'Cursos',     href: '#courses'  },
   { label: 'Resultados', href: '#gallery'  },
 ];

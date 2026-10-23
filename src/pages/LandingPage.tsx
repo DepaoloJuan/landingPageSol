@@ -6,6 +6,7 @@ import { Header } from '../components/layout/Header';
 import { Hero } from '../components/sections/Hero';
 import { About } from '../components/sections/About';
 import { Services } from '../components/sections/Services';
+import { Prices } from '../components/sections/Prices';
 import { Courses } from '../components/sections/Courses';
 import { Gallery } from '../components/sections/Gallery';
 import { Testimonials } from '../components/sections/Testimonials';
@@ -72,6 +73,7 @@ export function LandingPage() {
           <Hero />
           <About />
           <Services />
+          <Prices />
           <Courses />
           <Gallery />
           <Testimonials />

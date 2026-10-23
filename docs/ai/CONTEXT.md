@@ -1,8 +1,8 @@
 # CONTEXT.md — Sol Cantero Landing Page
-_Última actualización: 2026-08-06_
+_Última actualización: 2026-10-22_
 
 ## Qué es esto
-Landing page institucional de "Sol Cantero, Centro de Belleza" (Claypole, Buenos Aires). Sitio de presentación/marketing: muestra servicios, cursos, galería de resultados y testimonios, con el objetivo de derivar contactos a WhatsApp. Incluye además un portal de fidelización para clientas (`/mi-fidelidad`): login con Google o con email/contraseña, tarjeta de sellos, carrusel de tarjetas anteriores, revelado de premios y canje, e instalación como PWA ("Mi Fidelidad"). El sitio sigue siendo 100% frontend — los datos dinámicos de la landing pública y los del portal de fidelización se consumen de APIs externas; **este repo no tiene base de datos propia**.
+Landing page institucional de "Sol Cantero, Centro de Belleza" (Claypole, Buenos Aires). Sitio de presentación/marketing: muestra servicios, cursos, galería de resultados y testimonios, con el objetivo de derivar contactos a WhatsApp. Suma una página de lista de precios (`/precios`) alimentada por el admin. Incluye además un portal de fidelización para clientas (`/mi-fidelidad`): login con Google o con email/contraseña, tarjeta de sellos, carrusel de tarjetas anteriores, revelado de premios y canje, e instalación como PWA ("Mi Fidelidad"). El sitio sigue siendo 100% frontend — los datos dinámicos de la landing pública y los del portal de fidelización se consumen de APIs externas; **este repo no tiene base de datos propia**.
 
 ## Stack
 - **Frontend:** React 19 + TypeScript + Vite 8
@@ -22,6 +22,7 @@ Landing page institucional de "Sol Cantero, Centro de Belleza" (Claypole, Buenos
 ```tsx
 <Routes>
   <Route path="/" element={<LandingPage />} />
+  <Route path="/precios" element={<PreciosPage />} />
   <Route path="/mi-fidelidad" element={<FidelidadPage />} />
   <Route path="/mi-fidelidad/" element={<FidelidadPage />} />
   <Route path="/mi-fidelidad/resetear" element={<ResetearPasswordPage />} />
@@ -36,7 +37,10 @@ src/
  ├── components/
  │    ├── layout/           # Header, Footer (Footer renderiza <WhatsAppWidget/>)
  │    ├── sections/         # secciones de la landing pública (Hero, About, Services,
- │    │                       Courses, Gallery, Testimonials, IntroScreen, Popup)
+ │    │                       Courses, Gallery, Testimonials, IntroScreen, Popup) y Prices
+ │    │                       (lista de precios, la usa PreciosPage, ya no la home)
+ │    ├── prices/           # piezas de la lista de precios: types, PriceCategoryTabs,
+ │    │                       PriceCategoryBlock, PriceItem, PriceGallery (visor tipo feed)
  │    ├── ui/                # átomos reutilizables (Button, Container, WhatsAppWidget)
  │    └── fidelidad/         # portal de clientas
  │         ├── GoogleLoginButton.tsx   # botón de @react-oauth/google
@@ -51,13 +55,15 @@ src/
  │         ├── PremioModal.tsx         # modal fullscreen: spinner ("Descubriendo tu premio...") → reveal con scale-spring y botón de cierre
  │         └── Historial.tsx           # últimos 3 turnos por default, "Ver historial completo" despliega el resto
  ├── pages/
- │    ├── LandingPage.tsx    # landing pública completa (ex contenido de App.tsx)
+ │    ├── LandingPage.tsx    # landing pública completa (ex contenido de App.tsx); al llegar con /#seccion baja al ancla
+ │    ├── PreciosPage.tsx    # ruta /precios: Header + Prices + Footer
  │    └── fidelidad/
  │         ├── FidelidadPage.tsx        # orquestador con máquina de estados del portal + toggle Google/email; llama a usePwaFidelidad()
  │         └── ResetearPasswordPage.tsx # ruta /mi-fidelidad/resetear, lee el token de la URL (useSearchParams)
  ├── lib/
  │    ├── constants.ts      # URLs de contacto, API_URL, SESSION_KEY
  │    ├── utils.ts          # cn() = clsx + tailwind-merge
+ │    ├── useSmoothScroll.ts # hook compartido que monta Lenis (landing y /precios)
  │    ├── fidelidadApi.ts   # cliente HTTP del portal (ver abajo)
  │    └── usePwaFidelidad.ts # hook que registra manifest + service worker de "Mi Fidelidad" (ver PWA)
  ├── App.tsx                # switch de <Routes>
@@ -72,6 +78,7 @@ Endpoints de landing consumidos (contrato inferido del código):
 - `GET /api/landing/galeria` → `{ id, imagen_url, imagen_url_fallback, alt_texto }[]`
 - `GET /api/landing/testimonios` → `{ id, nombre, texto, estrellas, foto_url, foto_url_fallback }[]`
 - `GET /api/landing/popup` → `{ activo, imagen_url, imagen_url_fallback, texto }`
+- `GET /api/landing/precios` → `{ id, nombre, items: { id, nombre, precio, imagenes: string[] }[] }[]` (lista de precios por categorías; el backend sirve solo la última versión que Soledad publicó desde el admin, rate limit 60/min/IP). **Sin fallback hardcodeado, a propósito** (igual que fidelización): mostrar precios inventados sería incorrecto. Si no hay nada publicado o la API falla, `/precios` muestra "Estamos actualizando la lista" con un botón de WhatsApp
 
 **Flujo de datos del portal de fidelización:** cliente centralizado en `src/lib/fidelidadApi.ts` (a diferencia del patrón de arriba, acá sí hay un único cliente HTTP). Maneja el token bearer en `localStorage['sc_fidelidad_token']`, agrega el header `Authorization` automáticamente, y si la respuesta es 401 borra el token. Consume el backend de **Sol Admin** (repo separado, en producción en `https://admin.solcantero.com.ar`), endpoints bajo `/api/fidelidad/*`:
 - `POST /api/fidelidad/login-google` → `{ token, requiere_telefono, estado_vinculacion? }` (recibe `id_token` de Google)
@@ -110,6 +117,10 @@ No existe `docs/ai/db_schema_dump.sql` en este proyecto.
 - **Tarjetas anteriores integradas al carrusel coverflow (`TarjetasCarousel`), no como lista separada debajo:** la tarjeta actual y las de ciclos anteriores (`GET /api/fidelidad/tarjetas-anteriores`) son slides del mismo carrusel con drag + flechas y efecto 3D coverflow. El ancho de la tarjeta se recalcula contra `window.innerWidth` porque el efecto usa transform 3D con ancho fijo en px, que en mobile desbordaba la pantalla.
 - **PWA scopeada a `/mi-fidelidad/`, no a todo el sitio:** manifest y service worker se registran/desregistran dinámicamente solo mientras la clienta está en el portal (`usePwaFidelidad`), para no ofrecer "Instalar app" en la landing pública ni interferir con su cache.
 - **Service worker nunca cachea `/api/*`:** los datos de sellos, premios e historial tienen que reflejar siempre el estado real del backend; solo el shell estático de la app usa stale-while-revalidate.
+- **Lista de precios en página propia `/precios`, no como sección de la home:** la home ya no incluye `Prices`. El `Header` es consciente de la ruta: "Precios" lleva a `/precios` y los links de sección desde otras páginas van a `/#seccion` (la `LandingPage` baja al ancla); el `Footer` usa `Link` del router y tiene link a Precios. El smooth scroll de Lenis se extrajo a `src/lib/useSmoothScroll.ts` para compartirlo entre ambas páginas.
+- **Precios SIN fallback local, a propósito distinto del patrón de la landing:** igual que fidelización, mostrar precios inventados sería incorrecto. Sin nada publicado (o con la API caída) `/precios` muestra "Estamos actualizando la lista" y un botón de WhatsApp.
+- **Diseño de la lista de precios:** mismo estilo (Cormorant Garamond + Montserrat, crema/dorado/rosa). Pestañas con "Todos los servicios" primero (pastilla dorada animada), categorías numeradas 01/02…, filas tipo carta (no planilla), animaciones que respetan `prefers-reduced-motion` y botón "Reservar" por WhatsApp (se incluyó sin pedido explícito, fácil de sacar).
+- **Visor de fotos tipo feed vertical (`PriceGallery`):** en celular se desliza arriba/abajo; en PC hay flechas ↑↓, teclado y rueda; contador, pista "Deslizá para ver más", recorre los ítems visibles y va con `z-[110]` para quedar por encima del widget de WhatsApp.
 - **`VITE_API_URL` con default hardcodeado:** si la env var no está seteada, el sitio apunta a producción (`admin.solcantero.com.ar`) en vez de fallar. Bueno para demos rápidas, cuidado de no pegarle a prod sin querer en desarrollo.
 - **`curso_soft_gel_v2.html` como HTML estático plano:** vive en `public/` y se copia a `dist/curso-soft-gel.html` en el build (paso manual en el script `build` de `package.json`). Landing de venta de un curso específico, deliberadamente fuera del bundle de React.
 - **IntroScreen con video bloqueante solo una vez por sesión:** usa `sessionStorage` para que el usuario la vea de nuevo en cada sesión nueva del navegador, no solo la primera vez en el dispositivo.
@@ -117,6 +128,10 @@ No existe `docs/ai/db_schema_dump.sql` en este proyecto.
 
 ## Estado actual
 - **En producción (Firebase Hosting, canal `live`, última release 2026-08-06):** landing pública completa (Hero, About, Services, Courses, Gallery, Testimonials, Footer, WhatsApp widget, IntroScreen, Popup) **+ portal de fidelización completo** (login dual Google/email, registro manual, reseteo de contraseña por mail, alta de teléfono, tarjeta de sellos con carrusel de ciclos anteriores, revelado y canje de premios, historial de turnos) **+ PWA instalable "Mi Fidelidad"**. Mergeado a `main` vía PR #1 (rama `fidelizacion-front`) y deployado el mismo día. Depende del backend de **Sol Admin** para todo lo dinámico — landing pública y portal de fidelización — también mergeado y en producción del lado del backend.
+- **Sincronización de `main` con producción (2026-10-22):** se descubrió que `main` tenía cambios sin commitear que SÍ estaban en producción (el deploy de Firebase `72cf02` del 2026-08-06 21:00 se hizo desde el árbol local): About, Courses, Gallery, IntroScreen, Services, Testimonials, imagen de microblading, `public/fonts/`, `public/videos/` y `public/curso_soft_gel_v2.html` (el script `build` lo copia a `dist`). Con aprobación del usuario se commitearon en la rama `chore/sincronizar-produccion` (`07ae440`), y se ignoraron `.firebase/` y `.atl/`. El `main` local se actualizó a `origin` (`963ec4a`, README). Esa rama todavía no está mergeada.
+- **Lista de precios (2026-10-22) — NO está en producción:** ramas `chore/sincronizar-produccion` y `feat/lista-precios` (sobre la anterior), pusheadas, sin PR. `5f01bdf` sección de precios (`Prices.tsx` + `components/prices/*`), `22ed44c` página propia `/precios`, `bcf69aa` visor tipo feed. Consume `GET /api/landing/precios` del backend de Sol Admin (ramas sin mergear ni desplegar en ese repo, con migraciones 012 y 013 pendientes en Neon). **Orden recomendado:** PRs `chore/sincronizar-produccion` → `main` y después `feat/lista-precios`; entre repos, primero Sol Admin (migraciones + deploy + primera publicación de Soledad) y recién después la landing.
+- **Cuidado al deployar:** una prueba de `vite build` sobrescribió `dist/` con la versión de `feat/lista-precios`; reconstruir `dist/` desde la rama correcta antes de `firebase deploy`.
+- **Lint:** quedan 4 errores de ESLint preexistentes en `Gallery.tsx`, `Hero.tsx` y `FidelidadPage.tsx` (los archivos nuevos de precios pasan limpio). `tsc` y `vite build` OK.
 - **Variables de entorno resueltas, sin pendientes:** `.env.production` tiene `VITE_API_URL=https://admin.solcantero.com.ar` y `VITE_GOOGLE_CLIENT_ID` (mismo Client ID que usa el backend).
 - **Sin push notifications:** el nombre "fidelización" no implica notificaciones push — no están implementadas ni planeadas en esta iteración, solo instalabilidad como PWA.
 - **Roadmap declarado en el README** (no confirmado como implementado, tratar como pendiente):
@@ -124,6 +139,8 @@ No existe `docs/ai/db_schema_dump.sql` en este proyecto.
   - Panel administrativo dinámico en `admin.solcantero.com.ar` (parcialmente ya existe, dado que la landing y el portal ya consumen sus endpoints).
   - Galería conectada en tiempo real con la API de Instagram.
 - **Sin tests automatizados:** no hay carpeta de tests ni configuración de test runner en `package.json`.
+- **Sin identidad git configurada en este repo:** los commits del 2026-10-22 se hicieron con `-c user.name/email`.
+- **Dato útil de testing:** en Chrome headless la rueda y el gesto táctil sintéticos de CDP no desplazan; para probar el visor se simula con `Input.dispatchTouchEvent` / `synthesizeScrollGesture` con mouse.
 
 ## Convenciones del proyecto
 - **Idioma:** UI y contenido en español rioplatense; nombres de variables/componentes en inglés, pero interfaces de datos de la API en español (`titulo`, `descripcion`, `imagen_url`, `sellos_del_ciclo`) porque siguen el contrato del backend.

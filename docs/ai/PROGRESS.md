@@ -137,3 +137,25 @@ Al día de hoy (2026-04-06 en el árbol local, fecha de esta bitácora 2026-08-0
 - Local `main` en el checkout usado para esta bitácora estaba 9 commits detrás de `origin/main` (no se hizo `git pull` ni ningún otro cambio de estado de git desde este agente, solo se escribió este archivo).
 - El WIP viejo que venía de entradas anteriores (config previa de Firebase distinta a la que trajo `a61e744`, fotos, `curso_soft_gel_v2.html`, ajustes de estilos sueltos en `About/Courses/Gallery/Services/Testimonials/IntroScreen`) sigue sin commitear en el working tree — no se tocó en esta ronda.
 - No se verificó en esta entrada el flujo de canje de premios en persona ni el de PWA end-to-end contra dispositivos reales, más allá de la lectura del código.
+
+---
+
+## [2026-10-22]
+
+**Qué se hizo:**
+- Hallazgo: `main` tenía cambios sin commitear que SÍ estaban en producción (el deploy de Firebase `72cf02` del 2026-08-06 21:00 se hizo desde el árbol local). Eran el "WIP viejo" que las entradas anteriores dejaban pendiente: About, Courses, Gallery, IntroScreen, Services, Testimonials, imagen de microblading, `public/fonts/`, `public/videos/` y `public/curso_soft_gel_v2.html`. Con aprobación del usuario se commitearon en la rama `chore/sincronizar-produccion` (`07ae440`) y se ignoraron `.firebase/` y `.atl/`. El `main` local se actualizó a `origin` (`963ec4a`, README), resolviendo el desfasaje que figuraba en la entrada del 2026-08-06.
+- Rama `feat/lista-precios` (sobre la anterior), para consumir el nuevo `GET /api/landing/precios` del backend de Sol Admin:
+  - `5f01bdf` sección de precios: `src/components/sections/Prices.tsx` y `src/components/prices/{types,PriceCategoryTabs,PriceCategoryBlock,PriceItem,PriceGallery}`. Mismo estilo de la landing (Cormorant Garamond + Montserrat, crema/dorado/rosa), pedido explícito de sumar animación "llamativa": pestañas con "Todos los servicios" primero, categorías numeradas 01/02…, filas tipo carta (para que no parezca una planilla), animaciones que respetan `prefers-reduced-motion`, botón "Reservar" por WhatsApp (incluido sin pedido explícito, fácil de sacar).
+  - `22ed44c` página propia `/precios` (`src/pages/PreciosPage.tsx`, ruta en `App.tsx`); la home ya no incluye la sección. `Header` con links conscientes de la ruta ("Precios" → `/precios`; secciones desde otras páginas → `/#seccion`, y `LandingPage` baja al ancla); `Footer` con `Link` del router y link a Precios; hook compartido `src/lib/useSmoothScroll.ts` para Lenis.
+  - `bcf69aa` visor de fotos tipo feed vertical: deslizar arriba/abajo en celular; flechas ↑↓, teclado y rueda en PC; contador, pista "Deslizá para ver más", recorre lo visible, `z-[110]` por encima del widget de WhatsApp.
+  - Sin nada publicado (o con la API caída), `/precios` muestra "Estamos actualizando la lista" con WhatsApp; no hay fallback de precios, a propósito.
+- Verificación: `tsc` y `vite build` OK; ESLint de los archivos nuevos OK (quedan 4 errores preexistentes en `Gallery.tsx`, `Hero.tsx` y `FidelidadPage.tsx`); pruebas en Chrome headless con datos mock y con la API local. En headless la rueda y el gesto táctil sintéticos de CDP no desplazan; se simuló con `Input.dispatchTouchEvent` / `synthesizeScrollGesture` con mouse.
+- Notas: el repo no tiene identidad git configurada (los commits se hicieron con `-c user.name/email`). Un `vite build` de prueba sobrescribió `dist/` con la versión de `feat/lista-precios`.
+
+**Archivos tocados:** `src/components/sections/Prices.tsx` (nuevo), `src/components/prices/{types,PriceCategoryTabs,PriceCategoryBlock,PriceItem,PriceGallery}` (nuevos), `src/pages/PreciosPage.tsx` (nuevo), `src/lib/useSmoothScroll.ts` (nuevo), `src/App.tsx`, `src/components/layout/{Header,Footer}.tsx`, `src/pages/LandingPage.tsx`, `.gitignore`, `docs/ai/CONTEXT.md`, `docs/ai/PROGRESS.md`, `README.md`.
+
+**Pendiente / a revisar:**
+- Ambas ramas (`chore/sincronizar-produccion`, `feat/lista-precios`) están pusheadas, sin PR. Orden recomendado: primero `chore/sincronizar-produccion` → `main`, después `feat/lista-precios`. Orden entre repos: Sol Admin (migraciones 012 y 013 en Neon + deploy + primera publicación de Soledad) antes que la landing.
+- Reconstruir `dist/` desde la rama correcta antes de `firebase deploy`: hoy contiene el build de prueba de `feat/lista-precios`.
+- Siguen sin verificarse de punta a punta los pendientes del 2026-08-06 (canje de premios en persona y PWA en dispositivos reales).
+- Sin tests automatizados; 4 errores de lint preexistentes.

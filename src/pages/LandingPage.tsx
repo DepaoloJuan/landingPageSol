@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
-import Lenis from 'lenis';
+import { useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { IntroScreen } from '../components/sections/IntroScreen';
 import { Header } from '../components/layout/Header';
 import { Hero } from '../components/sections/Hero';
 import { About } from '../components/sections/About';
 import { Services } from '../components/sections/Services';
-import { Prices } from '../components/sections/Prices';
 import { Courses } from '../components/sections/Courses';
 import { Gallery } from '../components/sections/Gallery';
 import { Testimonials } from '../components/sections/Testimonials';
 import { Footer } from '../components/layout/Footer';
 import { Popup } from '../components/sections/Popup';
 import { SESSION_KEY } from '../lib/constants';
+import { useSmoothScroll } from '../lib/useSmoothScroll';
 
 
 
@@ -22,26 +22,18 @@ export function LandingPage() {
     () => !sessionStorage.getItem(SESSION_KEY)
   );
 
+  // Lenis no debe correr mientras la intro bloquea el scroll
+  useSmoothScroll(!showIntro);
+
+  // Al volver desde otra página con un ancla (por ejemplo /#services), baja a esa sección
+  const { hash } = useLocation();
   useEffect(() => {
-    // Lenis no debe correr mientras la intro bloquea el scroll
-    if (showIntro) return;
-
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-    });
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    return () => lenis.destroy();
-  }, [showIntro]); // Se re-ejecuta solo cuando showIntro cambia a false
+    if (showIntro || !hash) return;
+    const timer = setTimeout(() => {
+      document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [showIntro, hash]);
 
   useEffect(() => {
     // Bloquea el scroll del body durante la intro
@@ -73,7 +65,6 @@ export function LandingPage() {
           <Hero />
           <About />
           <Services />
-          <Prices />
           <Courses />
           <Gallery />
           <Testimonials />

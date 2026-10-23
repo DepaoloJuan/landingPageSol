@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { WA_URL } from '../../lib/constants';
 
 
 
+// href con "#" = sección de la home; con "/" = página aparte
 const navLinks = [
   { label: 'Servicios',  href: '#services' },
-  { label: 'Precios',    href: '#precios'  },
+  { label: 'Precios',    href: '/precios'  },
   { label: 'Cursos',     href: '#courses'  },
   { label: 'Resultados', href: '#gallery'  },
 ];
+
+const esSeccion = (href: string) => href.startsWith('#');
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -31,9 +34,19 @@ export function Header() {
   }, [mobileOpen]);
 
   const closeMenu = () => setMobileOpen(false);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const enHome = pathname === '/';
+
+  // Desde otra página, una sección de la home se abre como /#seccion
+  const destino = (href: string) => (esSeccion(href) && !enHome ? `/${href}` : href);
 
   const handleNavClick = (href: string) => {
     closeMenu();
+    if (!esSeccion(href) || !enHome) {
+      navigate(destino(href));
+      return;
+    }
     setTimeout(() => {
       document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
     }, 300);
@@ -59,7 +72,8 @@ export function Header() {
             onClick={(e) => {
               e.preventDefault();
               closeMenu();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              if (enHome) window.scrollTo({ top: 0, behavior: 'smooth' });
+              else navigate('/');
             }}
             className="text-3xl font-serif font-semibold tracking-wide text-charcoal"
           >
@@ -71,16 +85,24 @@ export function Header() {
             className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide"
             aria-label="Navegacion principal"
           >
-            {navLinks.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                className="relative group hover:text-gold transition-colors duration-300"
-              >
-                {label}
+            {navLinks.map(({ label, href }) => {
+              const clase = `relative group hover:text-gold transition-colors duration-300 ${pathname === href ? 'text-gold' : ''}`;
+              const subrayado = (
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 ease-out group-hover:w-full" />
-              </a>
-            ))}
+              );
+              // En la home, las secciones siguen siendo anclas; lo demás navega con el router
+              return esSeccion(href) && enHome ? (
+                <a key={href} href={href} className={clase}>
+                  {label}
+                  {subrayado}
+                </a>
+              ) : (
+                <Link key={href} to={destino(href)} className={clase}>
+                  {label}
+                  {subrayado}
+                </Link>
+              );
+            })}
             <Link to="/mi-fidelidad" className="relative group hover:text-gold transition-colors duration-300">
               Mi Fidelidad
               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 ease-out group-hover:w-full" />

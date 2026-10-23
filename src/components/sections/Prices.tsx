@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Container } from '../ui/Container';
-import { API_URL } from '../../lib/constants';
+import { MessageCircle } from 'lucide-react';
+import { API_URL, WA_PHONE } from '../../lib/constants';
 import { PriceCategoryTabs, TODOS, type PestanaActiva } from '../prices/PriceCategoryTabs';
 import { PriceCategoryBlock } from '../prices/PriceCategoryBlock';
 import { PriceGallery } from '../prices/PriceGallery';
@@ -25,7 +26,27 @@ function Esqueleto() {
   );
 }
 
-export function Prices() {
+// Si no hay nada publicado: en su propia página muestra un aviso, como sección se oculta
+function SinPrecios() {
+  const mensaje = encodeURIComponent('Hola Sol, me gustaría consultar los precios de los servicios.');
+  return (
+    <div className="max-w-md mx-auto text-center bg-white/60 backdrop-blur-sm rounded-3xl p-10 shadow-soft">
+      <p className="font-serif text-2xl text-charcoal mb-3">Estamos actualizando la lista.</p>
+      <p className="text-charcoal-light font-light mb-8">Mientras tanto, escribinos y te pasamos los precios al instante.</p>
+      <a
+        href={`https://wa.me/${WA_PHONE}?text=${mensaje}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-gold to-rose-dark text-white text-sm font-medium shadow-glow hover:brightness-105 active:scale-95 transition-all"
+      >
+        <MessageCircle size={18} />
+        Consultar por WhatsApp
+      </a>
+    </div>
+  );
+}
+
+export function Prices({ comoPagina = false }: { comoPagina?: boolean }) {
   // null = cargando; [] = no hay nada publicado (la sección no se muestra)
   const [categorias, setCategorias] = useState<PrecioCategoria[] | null>(null);
   const [activa, setActiva] = useState<PestanaActiva>(TODOS);
@@ -40,12 +61,16 @@ export function Prices() {
       .catch(() => setCategorias([]));
   }, []);
 
-  if (categorias !== null && categorias.length === 0) return null;
+  const vacia = categorias !== null && categorias.length === 0;
+  if (vacia && !comoPagina) return null;
 
   const visibles = activa === TODOS ? categorias ?? [] : (categorias ?? []).filter(c => c.id === activa);
 
   return (
-    <section id="precios" className="relative py-24 md:py-36 bg-gradient-to-b from-beige-light via-cream to-beige-light overflow-hidden">
+    <section
+      id="precios"
+      className={`relative ${comoPagina ? 'min-h-screen pt-36 pb-24 md:pt-44 md:pb-36' : 'py-24 md:py-36'} bg-gradient-to-b from-beige-light via-cream to-beige-light overflow-hidden`}
+    >
       {/* Atmósfera: dos luces suaves que flotan despacio detrás del contenido */}
       <motion.div
         aria-hidden="true"
@@ -93,6 +118,8 @@ export function Prices() {
 
         {categorias === null ? (
           <Esqueleto />
+        ) : vacia ? (
+          <SinPrecios />
         ) : (
           <>
             <PriceCategoryTabs categorias={categorias} activa={activa} onCambiar={setActiva} />

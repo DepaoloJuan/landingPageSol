@@ -5,7 +5,7 @@ import { MessageCircle } from 'lucide-react';
 import { API_URL, WA_PHONE } from '../../lib/constants';
 import { PriceCategoryTabs, TODOS, type PestanaActiva } from '../prices/PriceCategoryTabs';
 import { PriceCategoryBlock } from '../prices/PriceCategoryBlock';
-import { PriceGallery } from '../prices/PriceGallery';
+import { PriceGallery, type ServicioDelFeed } from '../prices/PriceGallery';
 import type { PrecioCategoria, PrecioItem } from '../prices/types';
 
 // Al cambiar de pestaña el contenido sale y entra con un fundido suave
@@ -50,7 +50,8 @@ export function Prices({ comoPagina = false }: { comoPagina?: boolean }) {
   // null = cargando; [] = no hay nada publicado (la sección no se muestra)
   const [categorias, setCategorias] = useState<PrecioCategoria[] | null>(null);
   const [activa, setActiva] = useState<PestanaActiva>(TODOS);
-  const [abierto, setAbierto] = useState<PrecioItem | null>(null);
+  // Posición en el feed del servicio abierto (null = visor cerrado)
+  const [abierto, setAbierto] = useState<number | null>(null);
   const reducirMovimiento = useReducedMotion();
 
   useEffect(() => {
@@ -65,6 +66,9 @@ export function Prices({ comoPagina = false }: { comoPagina?: boolean }) {
   if (vacia && !comoPagina) return null;
 
   const visibles = activa === TODOS ? categorias ?? [] : (categorias ?? []).filter(c => c.id === activa);
+  // El visor recorre, en orden, los servicios de lo que está a la vista
+  const feed: ServicioDelFeed[] = visibles.flatMap(c => c.items.map(item => ({ item, categoria: c.nombre })));
+  const abrir = (item: PrecioItem) => setAbierto(feed.findIndex(s => s.item.id === item.id));
 
   return (
     <section
@@ -130,7 +134,7 @@ export function Prices({ comoPagina = false }: { comoPagina?: boolean }) {
                     key={categoria.id}
                     categoria={categoria}
                     numero={categorias.indexOf(categoria) + 1}
-                    onAbrir={setAbierto}
+                    onAbrir={abrir}
                   />
                 ))}
               </motion.div>
@@ -139,7 +143,7 @@ export function Prices({ comoPagina = false }: { comoPagina?: boolean }) {
         )}
       </Container>
 
-      <PriceGallery item={abierto} onCerrar={() => setAbierto(null)} />
+      <PriceGallery servicios={feed} inicio={abierto} onCerrar={() => setAbierto(null)} />
     </section>
   );
 }

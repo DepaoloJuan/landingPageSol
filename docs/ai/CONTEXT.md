@@ -14,6 +14,7 @@ Landing page institucional de "Sol Cantero, Centro de Belleza" (Claypole, Buenos
 - **PWA:** sin librería (`vite-plugin-pwa` no se usa) — manifest y service worker manuales, solo para el portal `/mi-fidelidad` (ver Arquitectura)
 - **Datos:** sin base de datos propia — consume REST APIs externas vía `fetch` (ver sección Arquitectura)
 - **Deploy:** Firebase Hosting (proyecto `sol-cantero`, sitio `sol-cantero.web.app`, config en `firebase.json` / `.firebaserc`), SPA con rewrite a `index.html`. **En producción desde el 2026-08-06** (PR #1, rama `fidelizacion-front` mergeada a `main`): landing pública + portal de fidelización + PWA instalable.
+- **Tests:** Vitest + Testing Library (jsdom). `npm test` corre todo una vez, `npm run test:watch` en modo watch. Config en `vitest.config.ts` (aparte de `vite.config.ts`), setup en `src/test/setup.ts` (jest-dom, animaciones de Framer Motion instantáneas, y `matchMedia` / `IntersectionObserver` / `ResizeObserver` / `scrollIntoView` simulados porque jsdom no tiene layout). Hoy cubren solo la lista de precios (`Prices.test.tsx`, `PriceGallery.test.tsx`, `PreciosPage.test.tsx`)
 - **Build:** `tsc -b && vite build`; el build también copia `public/curso_soft_gel_v2.html` a `dist/curso-soft-gel.html` (landing standalone para un curso específico, servida como página estática aparte)
 
 ## Arquitectura
@@ -138,7 +139,7 @@ No existe `docs/ai/db_schema_dump.sql` en este proyecto.
   - Integración con Google Calendar para turnos automáticos.
   - Panel administrativo dinámico en `admin.solcantero.com.ar` (parcialmente ya existe, dado que la landing y el portal ya consumen sus endpoints).
   - Galería conectada en tiempo real con la API de Instagram.
-- **Sin tests automatizados:** no hay carpeta de tests ni configuración de test runner en `package.json`.
+- **Tests automatizados (2026-10-23, rama `test/lista-precios`):** 28 tests de Vitest + Testing Library para la lista de precios: pedido a `/api/landing/precios`, categorías, ítems y precios formateados, pestañas ("Todos los servicios" primero, filtro por categoría), aviso "Estamos actualizando la lista" con lista vacía, API caída o error HTTP (sin precios de fallback), sección oculta fuera de su página, descripción (una línea en la lista, completa en el visor, nada si es `null` o falta), visor (fotos, contador, flechas, teclado, cerrar con botón/Escape/fuera de la tarjeta, bloqueo del scroll) y la ruta `/precios` (título de la página). El resto de la landing y el portal de fidelización siguen sin tests. El fetch se simula con `vi.stubGlobal` (`src/test/precios.ts`); no se toca ninguna API real.
 - **Sin identidad git configurada en este repo:** los commits del 2026-10-22 se hicieron con `-c user.name/email`.
 - **Dato útil de testing:** en Chrome headless la rueda y el gesto táctil sintéticos de CDP no desplazan; para probar el visor se simula con `Input.dispatchTouchEvent` / `synthesizeScrollGesture` con mouse.
 

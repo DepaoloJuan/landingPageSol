@@ -176,3 +176,19 @@ Al día de hoy (2026-04-06 en el árbol local, fecha de esta bitácora 2026-08-0
 - Pase a producción según `docs/ai/DEPLOY-LISTA-PRECIOS.md` del repo Sol Admin: primero migraciones 012–014 en Neon, deploy del backend y primera publicación de Soledad; recién después `chore/sincronizar-produccion` → `main`, `feat/lista-precios` → `main`, `npm run build` desde `main` y `firebase deploy`.
 - Probar en un celular real después del deploy (hasta ahora se probó en el modo celular del navegador y en headless).
 - El CORS de `/api/landing` en el backend permite solo `https://www.solcantero.com.ar`: confirmar que la landing no se sirve también sin `www`.
+
+---
+
+## [2026-10-23]
+
+**Qué se hizo:**
+- Pedido del usuario: "si me gustaria agregar test a todo lo de esta sesion omo la de la anterior". Rama `test/lista-precios` (desde `feat/lista-precios`).
+- Se agregó el test runner: Vitest 5 + @testing-library/react, user-event y jest-dom + jsdom (devDependencies), scripts `test` (`vitest run`) y `test:watch`, `vitest.config.ts` y `src/test/setup.ts`.
+- 28 tests en `src/components/sections/Prices.test.tsx`, `src/components/prices/PriceGallery.test.tsx` y `src/pages/PreciosPage.test.tsx`: lista de precios (S9) y descripción del servicio (S13). Sin cambios en el código de producto.
+- Verificación: `npm test` 28/28; `tsc -b` OK; `npm run build` OK; ESLint sin errores nuevos (siguen los 4 preexistentes). Cada grupo clave se probó rompiendo el componente a propósito (sin la línea de descripción en la lista, sin la descripción en el visor, con precios de fallback cuando la API falla, mostrando un texto cuando la descripción es `null`): los tests fallaron y se restauró el código.
+
+**Archivos tocados:** `package.json`, `package-lock.json`, `tsconfig.node.json`, `vitest.config.ts` (nuevo), `src/test/{setup,precios}.ts` (nuevos), los tres `*.test.tsx` (nuevos), `docs/ai/CONTEXT.md`, `docs/ai/PROGRESS.md`.
+
+**Pendiente / a revisar:**
+- `node_modules` sigue trackeado en git en este repo (12.143 archivos, pese a estar en `.gitignore`): `npm install` lo deja con cientos de cambios. No se commitearon; conviene destrackearlo con `git rm -r --cached node_modules` en un commit aparte.
+- El resto de la landing y el portal de fidelización siguen sin tests.

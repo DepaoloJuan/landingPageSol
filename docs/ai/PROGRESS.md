@@ -192,3 +192,17 @@ Al día de hoy (2026-04-06 en el árbol local, fecha de esta bitácora 2026-08-0
 **Pendiente / a revisar:**
 - `node_modules` sigue trackeado en git en este repo (12.143 archivos, pese a estar en `.gitignore`): `npm install` lo deja con cientos de cambios. No se commitearon; conviene destrackearlo con `git rm -r --cached node_modules` en un commit aparte.
 - El resto de la landing y el portal de fidelización siguen sin tests.
+
+---
+
+## [2026-10-24]
+
+**Qué se hizo:**
+- Verificación contra la documentación oficial (Context7) de todo lo hecho en la lista de precios y sus tests. Se aplicaron las dos mitigaciones de este repo que el usuario aprobó ("dale hacelo"):
+  - `2c4ddcf` deja de versionar `node_modules` (`git rm -r --cached node_modules`, 12.143 archivos; ya estaba en `.gitignore` pero se había commiteado en el primer commit). Los archivos siguen en disco y `npm install` ya no ensucia el árbol. Resuelve el pendiente de la entrada anterior.
+  - `Prices.tsx` cancela el pedido de precios con `AbortController` si el componente se desmonta antes de la respuesta (lo que pide la doc de React para fetch en `useEffect`). Test nuevo; RED observado antes del cambio.
+- Verificación: `npm test` 29/29, `tsc -b` y ESLint de los archivos tocados OK, `npm run build` OK (reescribió `dist/` local: reconstruir antes de `firebase deploy`).
+
+**Archivos tocados:** `node_modules` (solo el índice de git), `src/components/sections/Prices.tsx`, `src/components/sections/Prices.test.tsx`, `docs/ai/PROGRESS.md`.
+
+**Pendiente / a revisar:** accesibilidad, como tarea aparte después del pase a producción: foco del visor de fotos, patrón completo de pestañas, `<MotionConfig reducedMotion="user">` en la raíz y actualizar Lenis (1.3.18 no respeta `prefers-reduced-motion`).

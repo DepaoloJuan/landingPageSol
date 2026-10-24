@@ -18,7 +18,8 @@ interface Props {
   onAbrir: (item: PrecioItem) => void;
 }
 
-// Una línea de la carta: foto redonda, nombre, puntos dorados y precio.
+// Una línea de la carta: foto redonda, nombre, puntos dorados y precio, con la descripción
+// en una línea debajo (completa en el visor).
 // Al pasar el mouse brilla un destello dorado de lado a lado.
 export function PriceItem({ item, onAbrir }: Props) {
   const fotos = item.imagenes.length;
@@ -56,6 +57,9 @@ export function PriceItem({ item, onAbrir }: Props) {
               className="hidden sm:block flex-1 mb-1.5 border-b border-dotted border-gold/60 origin-left"
             />
           </span>
+          {item.descripcion && (
+            <span className="mt-1 block truncate text-sm font-light text-charcoal-light">{item.descripcion}</span>
+          )}
           <span className="mt-1 flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-charcoal-light/70">
             <Camera size={12} />
             {fotos === 1 ? 'Ver foto' : `Ver ${fotos} fotos`}

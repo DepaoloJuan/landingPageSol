@@ -2,6 +2,8 @@
 export interface PrecioItem {
   id: number;
   nombre: string;
+  // Texto corto (hasta 200 caracteres); falta en publicaciones anteriores a la descripción
+  descripcion?: string | null;
   precio: number | null;
   imagenes: string[];
 }

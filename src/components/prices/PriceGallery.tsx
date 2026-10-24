@@ -186,35 +186,43 @@ function Diapositiva({ indice, item, categoria, mostrarPista, onCerrar }: Diapos
         onClick={e => e.stopPropagation()}
         className="w-full max-w-md max-h-full flex flex-col bg-cream rounded-3xl overflow-hidden shadow-2xl"
       >
-        {/* Si hay más de una foto se deslizan de costado */}
-        <div className="relative flex-1 min-h-0 flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* Si hay más de una foto se deslizan de costado. En pantallas bajas la foto
+            cede alto (recorta, no se deforma) para que entre la descripción. */}
+        <div className="relative flex-1 min-h-0 aspect-[4/5] max-h-[62dvh] flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {item.imagenes.map((url, i) => (
             <img
               key={url}
               src={url}
               alt={`${item.nombre}${item.imagenes.length > 1 ? `, foto ${i + 1}` : ''}`}
               loading={i === 0 ? 'eager' : 'lazy'}
-              className="w-full shrink-0 snap-center aspect-[4/5] max-h-[62dvh] object-cover"
+              className="w-full h-full shrink-0 snap-center object-cover"
               draggable={false}
             />
           ))}
         </div>
 
-        <div className="p-5 md:p-6 flex items-center justify-between gap-4">
-          <div className="min-w-0">
-            <p className="text-[11px] uppercase tracking-[0.25em] text-gold mb-1">{categoria}</p>
-            <h3 className="font-serif text-2xl text-charcoal leading-tight">{item.nombre}</h3>
-            <p className="mt-1 text-xl font-semibold text-gold">{formatearPrecio(item.precio)}</p>
+        <div className="shrink-0 p-5 md:p-6">
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-gold mb-1">{categoria}</p>
+              <h3 className="font-serif text-2xl text-charcoal leading-tight">{item.nombre}</h3>
+              <p className="mt-1 text-xl font-semibold text-gold">{formatearPrecio(item.precio)}</p>
+            </div>
+            <a
+              href={`https://wa.me/${WA_PHONE}?text=${waMensaje}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-gold to-rose-dark text-white text-sm font-medium shadow-glow hover:brightness-105 active:scale-95 transition-all"
+            >
+              <MessageCircle size={18} />
+              Reservar
+            </a>
           </div>
-          <a
-            href={`https://wa.me/${WA_PHONE}?text=${waMensaje}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-gold to-rose-dark text-white text-sm font-medium shadow-glow hover:brightness-105 active:scale-95 transition-all"
-          >
-            <MessageCircle size={18} />
-            Reservar
-          </a>
+          {item.descripcion && (
+            <p className="mt-3 pt-3 border-t border-gold/20 text-sm font-light text-charcoal-light leading-relaxed">
+              {item.descripcion}
+            </p>
+          )}
         </div>
       </motion.div>
 

@@ -19,6 +19,7 @@ Sitio web y portal de clientas para **Sol Cantero Centro de Belleza**, un negoci
 | Frontend | React 19, Vite, TypeScript |
 | Estilos | Tailwind CSS |
 | Animaciones | Framer Motion, Lenis (scroll inercial) |
+| Tests | Vitest y Testing Library (jsdom) |
 | Íconos | Lucide React |
 | Backend como servicio y hosting | Firebase |
 
@@ -37,6 +38,7 @@ Sitio web y portal de clientas para **Sol Cantero Centro de Belleza**, un negoci
 | Instalar dependencias | `npm install` |
 | Entorno de desarrollo | `npm run dev` |
 | Build de producción | `npm run build` |
+| Tests | `npm test` (una vez) o `npm run test:watch` |
 
 Las variables de entorno van en un archivo `.env` local, que no se versiona.
 

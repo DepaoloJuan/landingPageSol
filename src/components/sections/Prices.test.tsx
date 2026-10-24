@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Prices } from './Prices';
@@ -14,7 +14,25 @@ describe('Prices (landing price list, S9)', () => {
 
     await servicio(/Kapping/);
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock).toHaveBeenCalledWith(`${API_URL}/api/landing/precios`);
+    expect(fetchMock).toHaveBeenCalledWith(`${API_URL}/api/landing/precios`, {
+      signal: expect.any(AbortSignal),
+    });
+  });
+
+  it('cancels the request when the section unmounts before the answer arrives', () => {
+    let senal: AbortSignal | undefined;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((_url: string, init?: RequestInit) => {
+        senal = init?.signal ?? undefined;
+        return new Promise(() => {});
+      }),
+    );
+    const { unmount } = render(<Prices comoPagina />);
+
+    expect(senal?.aborted).toBe(false);
+    unmount();
+    expect(senal?.aborted).toBe(true);
   });
 
   it('renders every category with its services and formatted prices', async () => {

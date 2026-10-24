@@ -55,11 +55,16 @@ export function Prices({ comoPagina = false }: { comoPagina?: boolean }) {
   const reducirMovimiento = useReducedMotion();
 
   useEffect(() => {
-    fetch(`${API_URL}/api/landing/precios`)
+    // Si se sale de la página antes de que llegue la respuesta, se cancela el pedido
+    const controller = new AbortController();
+    fetch(`${API_URL}/api/landing/precios`, { signal: controller.signal })
       .then(res => (res.ok ? res.json() : []))
       .then(data => setCategorias(Array.isArray(data) ? data.filter(c => c.items?.length > 0) : []))
       // Con precios es mejor no mostrar nada que mostrar datos viejos o inventados
-      .catch(() => setCategorias([]));
+      .catch(() => {
+        if (!controller.signal.aborted) setCategorias([]);
+      });
+    return () => controller.abort();
   }, []);
 
   const vacia = categorias !== null && categorias.length === 0;

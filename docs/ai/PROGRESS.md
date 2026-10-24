@@ -159,3 +159,20 @@ Al día de hoy (2026-04-06 en el árbol local, fecha de esta bitácora 2026-08-0
 - Reconstruir `dist/` desde la rama correcta antes de `firebase deploy`: hoy contiene el build de prueba de `feat/lista-precios`.
 - Siguen sin verificarse de punta a punta los pendientes del 2026-08-06 (canje de premios en persona y PWA en dispositivos reales).
 - Sin tests automatizados; 4 errores de lint preexistentes.
+
+---
+
+## [2026-10-23]
+
+**Qué se hizo:**
+- Pedido de Soledad: una descripción corta por servicio en la lista de precios, "no solo en el visor de fotos". El backend (Sol Admin, `feat/lista-precios-descripcion`, migración 014) agrega `descripcion: string | null` a cada ítem publicado.
+- `feat/lista-precios`, `9ffaa66`: `PriceItem` muestra una línea recortada (`truncate`; `line-clamp-1` quedaba anulado por `block`) debajo del nombre; `PriceGallery` muestra el texto completo en la tarjeta del visor. La imagen mantiene 4:5 hasta 62dvh y solo cede altura (object-cover) cuando la tarjeta no entra en pantalla. Medido (ancho x alto de la foto): 390x844 sin descripción 358x448, con 200 caracteres 358x423; 375x667 sin descripción 343x385, con 200 caracteres 343x216.
+- Verificación: `tsc` y ESLint OK; 20 checks en Chrome headless (390x844, 375x667, 1366x900) más regresión del feed PASS. Soledad lo aprobó tras probarlo en local contra el backend local.
+- Rama pusheada, sin PR ni merge a `main`.
+
+**Archivos tocados:** `src/components/prices/{PriceGallery,PriceItem}.tsx`, `src/components/prices/types.ts`, `docs/ai/CONTEXT.md`, `docs/ai/PROGRESS.md`.
+
+**Pendiente / a revisar:**
+- Pase a producción según `docs/ai/DEPLOY-LISTA-PRECIOS.md` del repo Sol Admin: primero migraciones 012–014 en Neon, deploy del backend y primera publicación de Soledad; recién después `chore/sincronizar-produccion` → `main`, `feat/lista-precios` → `main`, `npm run build` desde `main` y `firebase deploy`.
+- Probar en un celular real después del deploy (hasta ahora se probó en el modo celular del navegador y en headless).
+- El CORS de `/api/landing` en el backend permite solo `https://www.solcantero.com.ar`: confirmar que la landing no se sirve también sin `www`.

@@ -206,3 +206,16 @@ Al día de hoy (2026-04-06 en el árbol local, fecha de esta bitácora 2026-08-0
 **Archivos tocados:** `node_modules` (solo el índice de git), `src/components/sections/Prices.tsx`, `src/components/sections/Prices.test.tsx`, `docs/ai/PROGRESS.md`.
 
 **Pendiente / a revisar:** accesibilidad, como tarea aparte después del pase a producción: foco del visor de fotos, patrón completo de pestañas, `<MotionConfig reducedMotion="user">` en la raíz y actualizar Lenis (1.3.18 no respeta `prefers-reduced-motion`).
+
+---
+
+## [2026-10-26]
+
+**Qué se hizo:**
+- Pase a producción de la lista de precios, siguiendo `docs/ai/DEPLOY-LISTA-PRECIOS.md` del repo Sol Admin.
+- Backend: migraciones 012–014 corridas a mano en Neon (2026-10-25) y PR #8 de Sol Admin mergeado y desplegado por Render (2026-10-26). `https://admin.solcantero.com.ar/api/landing/precios` responde `[]`: la lista arranca vacía.
+- PR #2 (`test/lista-precios` → `main`) abierto y mergeado el 2026-10-26. Lleva `chore/sincronizar-produccion`, `feat/lista-precios` y `test/lista-precios`. Se mergeó antes de cargar la lista para dejar todo listo; mergear no despliega.
+
+**Archivos tocados:** `docs/ai/CONTEXT.md`, `docs/ai/PROGRESS.md`.
+
+**Pendiente / a revisar:** `firebase deploy`, después de que Soledad cargue y publique la lista. En el checkout: `git switch main`, `git pull`, `npm ci` (obligatorio: el merge saca `node_modules` de git), `npm test` (29), `npm run build` (no desplegar el `dist/` viejo, está buildeado desde la rama de tests), revisar `dist/curso-soft-gel.html`, `dist/videos/` y `dist/fonts/`, y `firebase deploy`. Después, el smoke test en un celular de la sección 6 del checklist. Sigue pendiente la accesibilidad de `/precios`.

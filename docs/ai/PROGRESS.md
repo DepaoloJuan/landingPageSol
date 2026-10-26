@@ -137,3 +137,72 @@ Al día de hoy (2026-04-06 en el árbol local, fecha de esta bitácora 2026-08-0
 - Local `main` en el checkout usado para esta bitácora estaba 9 commits detrás de `origin/main` (no se hizo `git pull` ni ningún otro cambio de estado de git desde este agente, solo se escribió este archivo).
 - El WIP viejo que venía de entradas anteriores (config previa de Firebase distinta a la que trajo `a61e744`, fotos, `curso_soft_gel_v2.html`, ajustes de estilos sueltos en `About/Courses/Gallery/Services/Testimonials/IntroScreen`) sigue sin commitear en el working tree — no se tocó en esta ronda.
 - No se verificó en esta entrada el flujo de canje de premios en persona ni el de PWA end-to-end contra dispositivos reales, más allá de la lectura del código.
+
+---
+
+## [2026-10-22]
+
+**Qué se hizo:**
+- Hallazgo: `main` tenía cambios sin commitear que SÍ estaban en producción (el deploy de Firebase `72cf02` del 2026-08-06 21:00 se hizo desde el árbol local). Eran el "WIP viejo" que las entradas anteriores dejaban pendiente: About, Courses, Gallery, IntroScreen, Services, Testimonials, imagen de microblading, `public/fonts/`, `public/videos/` y `public/curso_soft_gel_v2.html`. Con aprobación del usuario se commitearon en la rama `chore/sincronizar-produccion` (`07ae440`) y se ignoraron `.firebase/` y `.atl/`. El `main` local se actualizó a `origin` (`963ec4a`, README), resolviendo el desfasaje que figuraba en la entrada del 2026-08-06.
+- Rama `feat/lista-precios` (sobre la anterior), para consumir el nuevo `GET /api/landing/precios` del backend de Sol Admin:
+  - `5f01bdf` sección de precios: `src/components/sections/Prices.tsx` y `src/components/prices/{types,PriceCategoryTabs,PriceCategoryBlock,PriceItem,PriceGallery}`. Mismo estilo de la landing (Cormorant Garamond + Montserrat, crema/dorado/rosa), pedido explícito de sumar animación "llamativa": pestañas con "Todos los servicios" primero, categorías numeradas 01/02…, filas tipo carta (para que no parezca una planilla), animaciones que respetan `prefers-reduced-motion`, botón "Reservar" por WhatsApp (incluido sin pedido explícito, fácil de sacar).
+  - `22ed44c` página propia `/precios` (`src/pages/PreciosPage.tsx`, ruta en `App.tsx`); la home ya no incluye la sección. `Header` con links conscientes de la ruta ("Precios" → `/precios`; secciones desde otras páginas → `/#seccion`, y `LandingPage` baja al ancla); `Footer` con `Link` del router y link a Precios; hook compartido `src/lib/useSmoothScroll.ts` para Lenis.
+  - `bcf69aa` visor de fotos tipo feed vertical: deslizar arriba/abajo en celular; flechas ↑↓, teclado y rueda en PC; contador, pista "Deslizá para ver más", recorre lo visible, `z-[110]` por encima del widget de WhatsApp.
+  - Sin nada publicado (o con la API caída), `/precios` muestra "Estamos actualizando la lista" con WhatsApp; no hay fallback de precios, a propósito.
+- Verificación: `tsc` y `vite build` OK; ESLint de los archivos nuevos OK (quedan 4 errores preexistentes en `Gallery.tsx`, `Hero.tsx` y `FidelidadPage.tsx`); pruebas en Chrome headless con datos mock y con la API local. En headless la rueda y el gesto táctil sintéticos de CDP no desplazan; se simuló con `Input.dispatchTouchEvent` / `synthesizeScrollGesture` con mouse.
+- Notas: el repo no tiene identidad git configurada (los commits se hicieron con `-c user.name/email`). Un `vite build` de prueba sobrescribió `dist/` con la versión de `feat/lista-precios`.
+
+**Archivos tocados:** `src/components/sections/Prices.tsx` (nuevo), `src/components/prices/{types,PriceCategoryTabs,PriceCategoryBlock,PriceItem,PriceGallery}` (nuevos), `src/pages/PreciosPage.tsx` (nuevo), `src/lib/useSmoothScroll.ts` (nuevo), `src/App.tsx`, `src/components/layout/{Header,Footer}.tsx`, `src/pages/LandingPage.tsx`, `.gitignore`, `docs/ai/CONTEXT.md`, `docs/ai/PROGRESS.md`, `README.md`.
+
+**Pendiente / a revisar:**
+- Ambas ramas (`chore/sincronizar-produccion`, `feat/lista-precios`) están pusheadas, sin PR. Orden recomendado: primero `chore/sincronizar-produccion` → `main`, después `feat/lista-precios`. Orden entre repos: Sol Admin (migraciones 012 y 013 en Neon + deploy + primera publicación de Soledad) antes que la landing.
+- Reconstruir `dist/` desde la rama correcta antes de `firebase deploy`: hoy contiene el build de prueba de `feat/lista-precios`.
+- Siguen sin verificarse de punta a punta los pendientes del 2026-08-06 (canje de premios en persona y PWA en dispositivos reales).
+- Sin tests automatizados; 4 errores de lint preexistentes.
+
+---
+
+## [2026-10-23]
+
+**Qué se hizo:**
+- Pedido de Soledad: una descripción corta por servicio en la lista de precios, "no solo en el visor de fotos". El backend (Sol Admin, `feat/lista-precios-descripcion`, migración 014) agrega `descripcion: string | null` a cada ítem publicado.
+- `feat/lista-precios`, `9ffaa66`: `PriceItem` muestra una línea recortada (`truncate`; `line-clamp-1` quedaba anulado por `block`) debajo del nombre; `PriceGallery` muestra el texto completo en la tarjeta del visor. La imagen mantiene 4:5 hasta 62dvh y solo cede altura (object-cover) cuando la tarjeta no entra en pantalla. Medido (ancho x alto de la foto): 390x844 sin descripción 358x448, con 200 caracteres 358x423; 375x667 sin descripción 343x385, con 200 caracteres 343x216.
+- Verificación: `tsc` y ESLint OK; 20 checks en Chrome headless (390x844, 375x667, 1366x900) más regresión del feed PASS. Soledad lo aprobó tras probarlo en local contra el backend local.
+- Rama pusheada, sin PR ni merge a `main`.
+
+**Archivos tocados:** `src/components/prices/{PriceGallery,PriceItem}.tsx`, `src/components/prices/types.ts`, `docs/ai/CONTEXT.md`, `docs/ai/PROGRESS.md`.
+
+**Pendiente / a revisar:**
+- Pase a producción según `docs/ai/DEPLOY-LISTA-PRECIOS.md` del repo Sol Admin: primero migraciones 012–014 en Neon, deploy del backend y primera publicación de Soledad; recién después `chore/sincronizar-produccion` → `main`, `feat/lista-precios` → `main`, `npm run build` desde `main` y `firebase deploy`.
+- Probar en un celular real después del deploy (hasta ahora se probó en el modo celular del navegador y en headless).
+- El CORS de `/api/landing` en el backend permite solo `https://www.solcantero.com.ar`: confirmar que la landing no se sirve también sin `www`.
+
+---
+
+## [2026-10-23]
+
+**Qué se hizo:**
+- Pedido del usuario: "si me gustaria agregar test a todo lo de esta sesion omo la de la anterior". Rama `test/lista-precios` (desde `feat/lista-precios`).
+- Se agregó el test runner: Vitest 5 + @testing-library/react, user-event y jest-dom + jsdom (devDependencies), scripts `test` (`vitest run`) y `test:watch`, `vitest.config.ts` y `src/test/setup.ts`.
+- 28 tests en `src/components/sections/Prices.test.tsx`, `src/components/prices/PriceGallery.test.tsx` y `src/pages/PreciosPage.test.tsx`: lista de precios (S9) y descripción del servicio (S13). Sin cambios en el código de producto.
+- Verificación: `npm test` 28/28; `tsc -b` OK; `npm run build` OK; ESLint sin errores nuevos (siguen los 4 preexistentes). Cada grupo clave se probó rompiendo el componente a propósito (sin la línea de descripción en la lista, sin la descripción en el visor, con precios de fallback cuando la API falla, mostrando un texto cuando la descripción es `null`): los tests fallaron y se restauró el código.
+
+**Archivos tocados:** `package.json`, `package-lock.json`, `tsconfig.node.json`, `vitest.config.ts` (nuevo), `src/test/{setup,precios}.ts` (nuevos), los tres `*.test.tsx` (nuevos), `docs/ai/CONTEXT.md`, `docs/ai/PROGRESS.md`.
+
+**Pendiente / a revisar:**
+- `node_modules` sigue trackeado en git en este repo (12.143 archivos, pese a estar en `.gitignore`): `npm install` lo deja con cientos de cambios. No se commitearon; conviene destrackearlo con `git rm -r --cached node_modules` en un commit aparte.
+- El resto de la landing y el portal de fidelización siguen sin tests.
+
+---
+
+## [2026-10-24]
+
+**Qué se hizo:**
+- Verificación contra la documentación oficial (Context7) de todo lo hecho en la lista de precios y sus tests. Se aplicaron las dos mitigaciones de este repo que el usuario aprobó ("dale hacelo"):
+  - `2c4ddcf` deja de versionar `node_modules` (`git rm -r --cached node_modules`, 12.143 archivos; ya estaba en `.gitignore` pero se había commiteado en el primer commit). Los archivos siguen en disco y `npm install` ya no ensucia el árbol. Resuelve el pendiente de la entrada anterior.
+  - `Prices.tsx` cancela el pedido de precios con `AbortController` si el componente se desmonta antes de la respuesta (lo que pide la doc de React para fetch en `useEffect`). Test nuevo; RED observado antes del cambio.
+- Verificación: `npm test` 29/29, `tsc -b` y ESLint de los archivos tocados OK, `npm run build` OK (reescribió `dist/` local: reconstruir antes de `firebase deploy`).
+
+**Archivos tocados:** `node_modules` (solo el índice de git), `src/components/sections/Prices.tsx`, `src/components/sections/Prices.test.tsx`, `docs/ai/PROGRESS.md`.
+
+**Pendiente / a revisar:** accesibilidad, como tarea aparte después del pase a producción: foco del visor de fotos, patrón completo de pestañas, `<MotionConfig reducedMotion="user">` en la raíz y actualizar Lenis (1.3.18 no respeta `prefers-reduced-motion`).

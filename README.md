@@ -7,6 +7,7 @@ Sitio web y portal de clientas para **Sol Cantero Centro de Belleza**, un negoci
 | Módulo | Detalle |
 | --- | --- |
 | Sitio institucional | Diseño mobile-first con animaciones fluidas y scroll suave |
+| Lista de precios | Página `/precios` con los servicios por categorías y galería de fotos, alimentada desde el admin |
 | Portal de fidelización | Login con Google y con email y contraseña, reseteo de contraseña, sellos e historial de la clienta |
 | PWA | Instalable en el celular desde el navegador |
 | Despliegue | Firebase Hosting |
@@ -15,9 +16,10 @@ Sitio web y portal de clientas para **Sol Cantero Centro de Belleza**, un negoci
 
 | Área | Tecnología |
 | --- | --- |
-| Frontend | React 18, Vite, TypeScript |
+| Frontend | React 19, Vite, TypeScript |
 | Estilos | Tailwind CSS |
 | Animaciones | Framer Motion, Lenis (scroll inercial) |
+| Tests | Vitest y Testing Library (jsdom) |
 | Íconos | Lucide React |
 | Backend como servicio y hosting | Firebase |
 
@@ -36,6 +38,7 @@ Sitio web y portal de clientas para **Sol Cantero Centro de Belleza**, un negoci
 | Instalar dependencias | `npm install` |
 | Entorno de desarrollo | `npm run dev` |
 | Build de producción | `npm run build` |
+| Tests | `npm test` (una vez) o `npm run test:watch` |
 
 Las variables de entorno van en un archivo `.env` local, que no se versiona.
 

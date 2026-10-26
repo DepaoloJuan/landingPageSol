@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Container } from '../ui/Container';
 import { WhatsAppWidget } from '../ui/WhatsAppWidget';
 import { Instagram, MapPin, MessageCircle, Clock } from 'lucide-react';
@@ -45,20 +46,26 @@ export function Footer() {
             <div>
               <h4 className="text-sm font-semibold text-gold tracking-widest uppercase mb-6">Enlaces</h4>
               <ul className="space-y-4 text-sm font-light text-beige-light/80">
+                {/* Links con el router: funcionan desde la home y desde otras páginas */}
                 <li>
-                  <a href="#services" className="hover:text-gold transition-colors duration-300">
+                  <Link to="/#services" className="hover:text-gold transition-colors duration-300">
                     Servicios
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#courses" className="hover:text-gold transition-colors duration-300">
+                  <Link to="/precios" className="hover:text-gold transition-colors duration-300">
+                    Precios
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/#courses" className="hover:text-gold transition-colors duration-300">
                     Cursos
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#gallery" className="hover:text-gold transition-colors duration-300">
+                  <Link to="/#gallery" className="hover:text-gold transition-colors duration-300">
                     Resultados
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
